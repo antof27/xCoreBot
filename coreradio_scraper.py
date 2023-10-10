@@ -9,17 +9,32 @@ def song_cleaning(song):
     song = song.split("[")[0].strip()
     return song
 
+def attribute_encoding(attribute):
+    if attribute == "genre":
+        attribute = 0
+    elif attribute == "country":
+        attribute = 1
+    elif attribute == "artist":
+        attribute = 2
+    elif attribute == "title":
+        attribute = 3
+    else:
+        print("Attribute not found")
+        return None
+    return attribute
 
 
 
 def site_requests(attribute, value, page_number):
     
+    attribute = attribute_encoding(attribute)
+
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
     id_list = []
     page_list = []
     elements_list = []
-
+    
     genre = []
 
     country= ""
@@ -62,7 +77,7 @@ def site_requests(attribute, value, page_number):
     
     subtoken = 0
     for token in lines:
-
+        
         if token == "more" or token == "MAIN" or token == '«' or token == '»' or token == "Load more" or "Quality:" in token or len(token) <2:
             continue
         
@@ -87,17 +102,20 @@ def site_requests(attribute, value, page_number):
 
                 except:
                     continue
+            else:
+                continue           
 
-        elements_list = [genre, country, artist, title]
-
-        if genre != "" and country != "" and artist != "" and title != "":
-            if elements_list[attribute] == value:
-                page_list.append(elements_list)
         
-            
-        subtoken = subtoken+1
+            if subtoken%3 == 2:
+                elements_list = [genre, country, artist, title]
 
-    #time.sleep(5)
+                if genre != "" and country != "" and artist != "" and title != "":
+                    if elements_list[attribute] == value or (attribute == 0 and any(value in item for item in elements_list[attribute])):
+                        page_list.append(elements_list)
+        
+            subtoken = subtoken+1
+        
+
 
     return page_list
 
@@ -108,4 +126,4 @@ def calling(attribute, value, total_page):
         print("page_list: ", elements)
 
 
-calling(attribute ="country", value="USA", total_page=1)
+calling(attribute ="artist", value="Windvent", total_page=1)
