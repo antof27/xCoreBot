@@ -12,12 +12,12 @@ def song_cleaning(song):
 
 
 
-def site_requests(attribute, value, total_pages=20):
+def site_requests(attribute, value, page_number):
     
-    site_url = "https://coreradio.online/page/"
+    site_url = "https://coreradio.online/page/" + str(page_number) 
     
     id_list = []
-    token_list = []
+    page_list = []
     elements_list = []
 
     genre = []
@@ -77,17 +77,20 @@ def site_requests(attribute, value, total_pages=20):
                         song = song_cleaning(token.split("-")[1].strip())
 
                         elements_list = [genre, country, artist, song]
-                        print("Elements list: ", elements_list)
-
                         
-                            
-                    
+                        page_list.append(elements_list)
 
                 subtoken = subtoken+1
 
     #time.sleep(5)
 
-    return id_list
+    return page_list
 
 
-a_tags = site_requests("genre", "rock")
+def calling(attribute, value, total_page):
+    for i in range(1, total_page):
+        elements = site_requests(attribute, value, 10)
+        print(elements)
+
+
+calling(attribute ="country", value="USA", total_page=2)
