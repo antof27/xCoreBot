@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import time
 
 
-
 def song_cleaning(song):
     song = song.split("(")[0].strip()
     song = song.split("[")[0].strip()
@@ -31,12 +30,11 @@ def site_requests(attribute, value, page_number):
 
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
-    id_list = []
     page_list = []
     elements_list = []
     
-    genre = []
 
+    genre = []
     country= ""
     artist = ""
     title = ""
@@ -53,25 +51,7 @@ def site_requests(attribute, value, page_number):
     
     #find the content div
     content_div = soup.find("div", {"id": "dle-content"})
-    
-    #find the a tags in the content div
-    a_tags = content_div.find_all('a')
-
-    for a in a_tags:
-        
-        if "https://coreradio.online/" in a['href'] and "https://coreradio.online/page/" not in a['href'] and a['href'][-1] != "/":
-
-            id = a['href'].split("/")[4]
-            id = id.split("-")[0]
-            id = int(id)
-            
-            if id is None or id in id_list:
-                continue
-            else:
-                id_list.append(id)
-
     information = content_div.text.strip()
-
     lines = information.splitlines()
     lines = [line for line in lines if line.strip() != ""]
     
@@ -123,7 +103,8 @@ def site_requests(attribute, value, page_number):
 def calling(attribute, value, total_page):
     for i in range(1, total_page+1):
         elements = site_requests(attribute, value, i)
-        print("page_list: ", elements)
+        if len(elements) != 0:
+            print("page_list: ", elements)
 
 
-calling(attribute ="artist", value="Windvent", total_page=1)
+calling(attribute ="country", value="Italy", total_page=20)
