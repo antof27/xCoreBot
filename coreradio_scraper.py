@@ -47,17 +47,25 @@ def site_requests(attribute, value, total_pages=20):
             lines = information.splitlines()
             lines = [line for line in lines if line.strip() != ""]
             
+            subtoken = 0
             for token in lines:
 
                 if token == "more" or token == "MAIN" or token == '«' or token == '»' or token == "Load more" or "Quality:" in token or len(token) <2:
                     continue
+                
                 else:
-                    print(token)
+                    if subtoken%3 == 0:
+                        genre = token.split(":")[1].strip()
+                        print(genre)
+                        
+                            
+                    
+
+                subtoken = subtoken+1
+
     #time.sleep(5)
 
     return id_list
 
 
 a_tags = site_requests("genre", "rock")
-print(a_tags)
-print(len(a_tags))
