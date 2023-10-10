@@ -2,6 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 import time
 
+
+
+def song_cleaning(song):
+    song = song.split("(")[0].strip()
+    song = song.split("[")[0].strip()
+    return song
+
+
+
+
 def site_requests(attribute, value, total_pages=20):
     
     site_url = "https://coreradio.online/page/"
@@ -56,7 +66,19 @@ def site_requests(attribute, value, total_pages=20):
                 else:
                     if subtoken%3 == 0:
                         genre = token.split(":")[1].strip()
-                        print(genre)
+                        genre = genre.split("/")
+
+                    elif subtoken%3 == 1:
+                        country = token.split(":")[1].strip()
+                    
+                    elif subtoken%3 == 2:
+                        artist = token.split("-")[0].strip()
+                        song = token.split("-")[1].strip()
+
+
+                        print("artist : "   + artist)
+                        print("song : " + song)
+
                         
                             
                     
