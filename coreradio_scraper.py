@@ -20,7 +20,8 @@ def site_requests(attribute, value, total_pages=20):
     token_list = []
     elements_list = []
 
-    genre = ""
+    genre = []
+
     country= ""
     artist = ""
     title = ""
@@ -73,11 +74,10 @@ def site_requests(attribute, value, total_pages=20):
                     
                     elif subtoken%3 == 2:
                         artist = token.split("-")[0].strip()
-                        song = token.split("-")[1].strip()
+                        song = song_cleaning(token.split("-")[1].strip())
 
-
-                        print("artist : "   + artist)
-                        print("song : " + song)
+                        elements_list = [genre, country, artist, song]
+                        print("Elements list: ", elements_list)
 
                         
                             
