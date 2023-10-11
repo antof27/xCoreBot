@@ -8,19 +8,22 @@ def song_cleaning(song):
     song = song.split("[")[0].strip()
     return song
 
+
 def attribute_encoding(attribute):
-    if attribute == "genre":
-        attribute = 0
-    elif attribute == "country":
-        attribute = 1
-    elif attribute == "artist":
-        attribute = 2
-    elif attribute == "title":
-        attribute = 3
-    else:
-        print("Attribute not found")
-        return None
-    return attribute
+    attribute_mapping = {
+        "genre": 0,
+        "country": 1,
+        "artist": 2,
+        "title": 3,
+        "all" : 4
+    }
+    
+    return attribute_mapping.get(attribute, "Attribute not found")
+
+def lower_case(string):
+    return string.lower()
+
+
 
 
 
@@ -90,7 +93,7 @@ def site_requests(attribute, value, page_number):
                 elements_list = [genre, country, artist, title]
 
                 if genre != "" and country != "" and artist != "" and title != "":
-                    if elements_list[attribute] == value or (attribute == 0 and any(value in item for item in elements_list[attribute])):
+                    if attribute == 4 or lower_case(elements_list[attribute]) == lower_case(value) or (attribute == 0 and any(lower_case(value) in lower_case(item) for item in elements_list[attribute])):
                         page_list.append(elements_list)
         
             subtoken = subtoken+1
@@ -107,4 +110,4 @@ def calling(attribute, value, total_page):
             print("page_list: ", elements)
 
 
-calling(attribute ="country", value="Italy", total_page=20)
+calling(attribute ="country", value="usa", total_page=1)
