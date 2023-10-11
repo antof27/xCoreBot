@@ -10,7 +10,9 @@ def song_cleaning(song):
 
 
 def attribute_encoding(attribute):
+    print(attribute)
     attribute = lower_case(attribute)
+    
     attribute_mapping = {
         "genre": 0,
         "country": 1,
@@ -27,8 +29,8 @@ def lower_case(string):
 
 
 def site_requests(attribute, value, page_number):
-    print("Attribute", attribute)
-    attribute = attribute_encoding(attribute)
+    if type(attribute) == str:
+        attribute = attribute_encoding(attribute)
 
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
@@ -108,7 +110,8 @@ def calling(attribute, value, total_page):
     for i in range(1, total_page+1):
         elements = site_requests(attribute, value, i)
         if len(elements) != 0:
-            attribute = attribute_encoding(attribute)
+            if type(attribute) == str:    
+                attribute = attribute_encoding(attribute)
             attribute_messages = {
             0: "Le releases il cui genere contiene il {} sono: ",
             1: "Le releases il cui paese è {} sono: ",
