@@ -10,6 +10,7 @@ def song_cleaning(song):
 
 
 def attribute_encoding(attribute):
+    attribute = lower_case(attribute)
     attribute_mapping = {
         "genre": 0,
         "country": 1,
@@ -25,10 +26,8 @@ def lower_case(string):
 
 
 
-
-
 def site_requests(attribute, value, page_number):
-    
+    print("Attribute", attribute)
     attribute = attribute_encoding(attribute)
 
     site_url = "https://coreradio.online/page/" + str(page_number) 
@@ -93,7 +92,9 @@ def site_requests(attribute, value, page_number):
                 elements_list = [genre, country, artist, title]
 
                 if genre != "" and country != "" and artist != "" and title != "":
-                    if attribute == 4 or lower_case(elements_list[attribute]) == lower_case(value) or (attribute == 0 and any(lower_case(value) in lower_case(item) for item in elements_list[attribute])):
+                    if attribute == 4 or (attribute == 0 and any(lower_case(value) in lower_case(item) for item in elements_list[attribute]))  \
+                        or (attribute != 0 and lower_case(elements_list[attribute]) == lower_case(value)):
+                        
                         page_list.append(elements_list)
         
             subtoken = subtoken+1
@@ -107,7 +108,25 @@ def calling(attribute, value, total_page):
     for i in range(1, total_page+1):
         elements = site_requests(attribute, value, i)
         if len(elements) != 0:
-            print("page_list: ", elements)
+            attribute = attribute_encoding(attribute)
+            attribute_messages = {
+            0: "Le releases il cui genere contiene il {} sono: ",
+            1: "Le releases il cui paese è {} sono: ",
+            2: "Le releases dell'artista {} sono: ",
+            3: "Le releases il cui titolo è {} sono: ",
+            4: "Le releases globali delle ultime {} pagine sono: "
+            }
+
+            if attribute in attribute_messages:
+                message = attribute_messages[attribute]
+                if attribute == 4:
+                    message = message.format(total_page)
+                else:
+                    message = message.format(value)
+                print(message)
+                print(elements)
 
 
-calling(attribute ="country", value="usa", total_page=1)
+
+
+calling(attribute ="genre", value="rap", total_page=20)
