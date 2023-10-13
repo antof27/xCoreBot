@@ -9,7 +9,7 @@ def song_cleaning(song):
     return song
 
 
-def attribute_encoding(attribute):
+def attribute_encoding(flag):
     print(attribute)
     attribute = lower_case(attribute)
     
@@ -26,12 +26,24 @@ def attribute_encoding(attribute):
 def lower_case(string):
     return string.lower()
 
+'''
+def extractor(string):
+    tokens = string.split()
+
+    for token in tokens:
+        
+    
+
+    return command, flags, values, total_pages
+'''
 
 
-def site_requests(attribute, value, page_number):
+
+def site_requests(command, flags=None, values = None, page_number=20):
+    '''
     if type(attribute) == str:
         attribute = attribute_encoding(attribute)
-
+    '''
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
     page_list = []
@@ -94,9 +106,6 @@ def site_requests(attribute, value, page_number):
                 elements_list = [genre, country, artist, title]
 
                 if genre != "" and country != "" and artist != "" and title != "":
-                    if attribute == 4 or (attribute == 0 and any(lower_case(value) in lower_case(item) for item in elements_list[attribute]))  \
-                        or (attribute != 0 and lower_case(elements_list[attribute]) == lower_case(value)):
-                        
                         page_list.append(elements_list)
         
             subtoken = subtoken+1
@@ -105,7 +114,7 @@ def site_requests(attribute, value, page_number):
 
     return page_list
 
-
+'''
 def calling(attribute, value, total_page):
     for i in range(1, total_page+1):
         elements = site_requests(attribute, value, i)
@@ -132,4 +141,14 @@ def calling(attribute, value, total_page):
 
 
 
-calling(attribute ="genre", value="rap", total_page=20)
+calling(command)
+
+
+def calling(string):
+    command, flags, values, total_pages = extractor(string)
+print(site_requests("all", None, None, 20))
+'''
+
+
+string = "/filter -g blackmetal"
+print(extractor(string))
