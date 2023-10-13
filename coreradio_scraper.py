@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import time
+from token_extractor import arguments_checker
 
 
 def song_cleaning(song):
@@ -8,7 +9,7 @@ def song_cleaning(song):
     song = song.split("[")[0].strip()
     return song
 
-
+'''
 def attribute_encoding(flag):
     print(attribute)
     attribute = lower_case(attribute)
@@ -22,28 +23,36 @@ def attribute_encoding(flag):
     }
     
     return attribute_mapping.get(attribute, "Attribute not found")
+'''
 
 def lower_case(string):
     return string.lower()
 
-'''
-def extractor(string):
-    tokens = string.split()
 
-    for token in tokens:
+def requests_and_soup(url):
+    try:
+        response = requests.get(url)
         
+        #if the response isn't correctly done, retry after 60 seconds
+    except:
+        time.sleep(5)
+        response = requests.get(url)
+
+    soup = BeautifulSoup(response.text, "html.parser")
+    return soup
+
+
+
+
+
+def site_requests(command, flags, values, page_number):
+
     
 
-    return command, flags, values, total_pages
-'''
 
 
 
-def site_requests(command, flags=None, values = None, page_number=20):
-    '''
-    if type(attribute) == str:
-        attribute = attribute_encoding(attribute)
-    '''
+
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
     page_list = []
@@ -55,15 +64,7 @@ def site_requests(command, flags=None, values = None, page_number=20):
     artist = ""
     title = ""
 
-    try:
-        response = requests.get(site_url)
-        
-        #if the response isn't correctly done, retry after 60 seconds
-    except:
-        time.sleep(5)
-        response = requests.get(site_url)
-
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = requests_and_soup(site_url)
     
     #find the content div
     content_div = soup.find("div", {"id": "dle-content"})
@@ -99,8 +100,9 @@ def site_requests(command, flags=None, values = None, page_number=20):
                 except:
                     continue
             else:
+                
                 continue           
-
+            
         
             if subtoken%3 == 2:
                 elements_list = [genre, country, artist, title]
@@ -109,9 +111,7 @@ def site_requests(command, flags=None, values = None, page_number=20):
                         page_list.append(elements_list)
         
             subtoken = subtoken+1
-        
-
-
+    
     return page_list
 
 '''
@@ -139,16 +139,38 @@ def calling(attribute, value, total_page):
                 print(elements)
 
 
-
-
-calling(command)
-
-
-def calling(string):
-    command, flags, values, total_pages = extractor(string)
-print(site_requests("all", None, None, 20))
 '''
 
 
-string = "/filter -g blackmetal"
-print(extractor(string))
+
+
+def calling(string):
+    command, flags, values, total_pages = arguments_checker(string)
+    print("Command: ", command)
+    print("Flags: ", flags)
+    print("Values: ", values)
+    print("Total pages: ", total_pages)
+
+
+
+    if command == None:
+        print("Error: flag not found")
+        return None
+    else:
+        if command == "/all":
+            for i in range(1, total_pages+1):
+                elements = site_requests(command, flags, values, i)
+                print(elements)
+        elif command == "/filter":
+            for i in range(1, total_pages+1):
+                elements = site_requests(command, flags, values, i)
+                print(elements)
+        else:
+            print("Error: command not found")
+            return None
+
+
+
+
+command = "/filter -ac prospective, italy 1"
+calling(command)
