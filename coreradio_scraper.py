@@ -75,11 +75,9 @@ def site_requests(command, flags, values, page_number):
     
     query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
     
-
-
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
-    
+    print("Site url: ", site_url)
     page_list = []
     elements_list = []
     
@@ -98,62 +96,54 @@ def site_requests(command, flags, values, page_number):
     
     subtoken = 0
     for token in lines:
-        
-        if token == "more" or token == "MAIN" or token == '«' or token == '»' or token == "Load more" or "Quality:" in token or len(token) <2:
+        if token in ["more", "MAIN", '«', '»', "Load more"] or "Quality:" in token or len(token) < 2:
             continue
-        
-        else:
-            if subtoken%3 == 0:
-                try:
-                    release_genre = token.split(":")[1].strip()
-                    release_genre = release_genre.split("/")
-                except:
-                    continue
 
-            elif subtoken%3 == 1:
-                try: 
-                    release_country = token.split(":")[1].strip()
-                except:
-                    continue
-            
-            elif subtoken%3 == 2:
-                try:
-                    release_artist = token.split("-")[0].strip()
-                    release_title = song_cleaning(token.split("-")[1].strip())
+        if subtoken % 3 == 0:
+            try:
+                release_genre = token.split(":")[1].strip()
+                release_genre = release_genre.split("/")
+            except:
+                continue
+            subtoken += 1  # Increment subtoken here
 
-                except:
-                    continue
-            else:
-                
-                continue           
-            
-        
-            if subtoken%3 == 2:
-                elements_list = [release_genre, release_country, release_artist, release_title]
+        elif subtoken % 3 == 1:
+            try: 
+                release_country = token.split(":")[1].strip()
+            except:
+                continue
+            subtoken += 1  # Increment subtoken here
 
-                if release_genre != None and release_country != None and release_artist != None and release_title != None:
-                    if command == "/all":
-                        page_list.append(elements_list)
-                    elif command == "/filter":
-                        #check if the release values are equal to the query values
-                        if query_genre != None:
-                            if not any(lower_case(query_genre) in lower_case(item) for item in release_genre):
-                                continue
-                        if query_country != None:
-                            if lower_case(query_country) != lower_case(release_country):
-                                continue
-                        if query_artist != None:
-                            if lower_case(query_artist) != lower_case(release_artist):
-                                continue
-                        if query_title != None:
-                            if lower_case(query_title) != lower_case(release_title):
-                                continue
+        elif subtoken % 3 == 2:
+            try:
+                release_artist = token.split("-")[0].strip()
+                release_title = song_cleaning(token.split("-")[1].strip())
+            except:
+                continue
+            subtoken += 1  # Increment subtoken here
 
-                        page_list.append(elements_list)
-                        
-        
-            subtoken = subtoken+1
-    
+        if subtoken % 3 == 0:
+            elements_list = [release_genre, release_country, release_artist, release_title]
+            if release_genre != None and release_country != None and release_artist != None and release_title != None:
+                if command == "/all":
+                    page_list.append(elements_list)
+                elif command == "/filter":
+                    #check if the release values are equal to the query values
+                    if query_genre != None:
+                        if not any(lower_case(query_genre) in lower_case(item) for item in release_genre):
+                            continue
+                    if query_country != None:
+                        if lower_case(query_country) != lower_case(release_country):
+                            continue
+                    if query_artist != None:
+                        if lower_case(query_artist) != lower_case(release_artist):
+                            continue
+                    if query_title != None:
+                        if lower_case(query_title) != lower_case(release_title):
+                            continue
+
+                    page_list.append(elements_list)
+
     return page_list
 
 
@@ -188,5 +178,5 @@ def calling(string):
 
 
 
-command = "/all 2"
+command = "/filter -g progressive 3"
 calling(command)
