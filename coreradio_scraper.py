@@ -42,27 +42,47 @@ def requests_and_soup(url):
     return soup
 
 
+def values_extractor(flags, values):
+    if flags is not None:
+        flag_mapping = {
+            "genre": None,
+            "country": None,
+            "artist": None,
+            "title": None
+        }
+        
+        for flag in flag_mapping:
+            if flag in flags:
+                index = flags.index(flag)
+                flag_mapping[flag] = values[index]
 
-
-
-def site_requests(command, flags, values, page_number):
-
+        query_genre = flag_mapping["genre"]
+        query_country = flag_mapping["country"]
+        query_artist = flag_mapping["artist"]
+        query_title = flag_mapping["title"]
+    
+    return query_genre, query_country, query_artist, query_title
     
 
 
-
+def site_requests(command, flags, values, page_number):
+    
+    #search the genre inside the flags list and assign to the variable genre, the related index in values list
+    
+    
+    query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
 
 
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
+    
     page_list = []
     elements_list = []
     
-
-    genre = []
-    country= ""
-    artist = ""
-    title = ""
+    release_genre = []
+    release_country= None
+    release_artist = None
+    release_title = None
 
     soup = requests_and_soup(site_url)
     
@@ -81,21 +101,21 @@ def site_requests(command, flags, values, page_number):
         else:
             if subtoken%3 == 0:
                 try:
-                    genre = token.split(":")[1].strip()
-                    genre = genre.split("/")
+                    release_genre = token.split(":")[1].strip()
+                    release_genre = release_genre.split("/")
                 except:
                     continue
 
             elif subtoken%3 == 1:
                 try: 
-                    country = token.split(":")[1].strip()
+                    release_country = token.split(":")[1].strip()
                 except:
                     continue
             
             elif subtoken%3 == 2:
                 try:
-                    artist = token.split("-")[0].strip()
-                    title = song_cleaning(token.split("-")[1].strip())
+                    release_artist = token.split("-")[0].strip()
+                    release_title = song_cleaning(token.split("-")[1].strip())
 
                 except:
                     continue
@@ -105,9 +125,9 @@ def site_requests(command, flags, values, page_number):
             
         
             if subtoken%3 == 2:
-                elements_list = [genre, country, artist, title]
+                elements_list = [release_genre, release_country, release_artist, release_title]
 
-                if genre != "" and country != "" and artist != "" and title != "":
+                if release_genre != None and release_country != None and release_artist != None and release_title != None:
                         page_list.append(elements_list)
         
             subtoken = subtoken+1
@@ -172,5 +192,5 @@ def calling(string):
 
 
 
-command = "/filter -ac prospective, italy 1"
+command = "/filter -gac prospective, italy, progressive metalcore 1"
 calling(command)
