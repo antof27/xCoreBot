@@ -53,7 +53,6 @@ def arguments_checker(input_string):
             #check if the last element is a number, if so, store it and remove it from the list
             input_string, pages = pages_checker(input_string, pages)
             
-
             stringList = input_string.split(' ', 2)
             tags = stringList[2]    
             
@@ -72,10 +71,10 @@ def arguments_checker(input_string):
     return command, flags, values, pages
 
 
-
+'''
 # Example usage:
 input_string = "/all 50"
 command, flags, values, pages = arguments_checker(input_string)
 print("Command: ", command, "\nFlags: ", flags, "\nValues: ", values, "\nPages: ", pages)
-
+'''
 
