@@ -14,10 +14,6 @@ def flags_mapping(string):
     return words
 
 
-
-
-
-#create a function to remove whitespace in starting and ending
 def remove_whitespace(string):
     string = string.strip()
     return string
@@ -30,19 +26,22 @@ def arguments_checker(input_string):
     if command == "/all":
         return command, flags, values
     elif command == "/filter": 
-        
-        flags = input_string.split(" ")[1]
-        flags = flags_mapping(flags)
+        try:
+            flags = input_string.split(" ")[1]
+            flags = flags_mapping(flags)
 
-        stringList = input_string.split(' ', 2)
-        tags = stringList[2]            
-        values = tags.split(',')
-        values = [remove_whitespace(value) for value in values]
+            stringList = input_string.split(' ', 2)
+            tags = stringList[2]            
+            values = tags.split(',')
+            values = [remove_whitespace(value) for value in values]
 
-        #check if flags and values have the same length
-        if len(flags) != len(values):
-            print("Error: flags and values have different length")
-            return None, None, None 
+            # Check if flags and values have the same length
+            if len(flags) != len(values):
+                print("Error: flags and values have different length")
+                return None, None, None 
+        except:
+            print("Error: incorrect syntax")
+            return None, None, None
         
 
     return command, flags, values
@@ -50,10 +49,7 @@ def arguments_checker(input_string):
 
     
 # Example usage:
-input_string = "/filter -ct heavener, invent animate"
-
+input_string = "/filter -g progressicve"
 command, flags, values = arguments_checker(input_string)
-print("Command: ", command)
-print("Flags: ", flags)
-print("Values: ", values)
+
 
