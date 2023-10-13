@@ -9,21 +9,6 @@ def song_cleaning(song):
     song = song.split("[")[0].strip()
     return song
 
-'''
-def attribute_encoding(flag):
-    print(attribute)
-    attribute = lower_case(attribute)
-    
-    attribute_mapping = {
-        "genre": 0,
-        "country": 1,
-        "artist": 2,
-        "title": 3,
-        "all" : 4
-    }
-    
-    return attribute_mapping.get(attribute, "Attribute not found")
-'''
 
 def lower_case(string):
     return string.lower()
@@ -33,7 +18,6 @@ def requests_and_soup(url):
     try:
         response = requests.get(url)
         
-        #if the response isn't correctly done, retry after 60 seconds
     except:
         time.sleep(5)
         response = requests.get(url)
@@ -70,14 +54,12 @@ def values_extractor(flags, values):
 
 def site_requests(command, flags, values, page_number):
     
-    #search the genre inside the flags list and assign to the variable genre, the related index in values list
-    
     
     query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
     
     site_url = "https://coreradio.online/page/" + str(page_number) 
     
-    print("Site url: ", site_url)
+    print("Page: ", page_number)
     page_list = []
     elements_list = []
     
@@ -105,14 +87,14 @@ def site_requests(command, flags, values, page_number):
                 release_genre = release_genre.split("/")
             except:
                 continue
-            subtoken += 1  # Increment subtoken here
+            subtoken += 1  
 
         elif subtoken % 3 == 1:
             try: 
                 release_country = token.split(":")[1].strip()
             except:
                 continue
-            subtoken += 1  # Increment subtoken here
+            subtoken += 1  
 
         elif subtoken % 3 == 2:
             try:
@@ -120,7 +102,7 @@ def site_requests(command, flags, values, page_number):
                 release_title = song_cleaning(token.split("-")[1].strip())
             except:
                 continue
-            subtoken += 1  # Increment subtoken here
+            subtoken += 1  
 
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
@@ -170,7 +152,8 @@ def calling(string):
                 elements = site_requests(command, flags, values, i)
                 if len(elements) == 0:
                     continue
-                print(elements)
+                for element in elements:
+                    print(element)
         else:
             print("Error: command not found")
             return None
@@ -178,5 +161,5 @@ def calling(string):
 
 
 
-command = "/filter -g progressive 3"
+command = "/filter -g progressive 10"
 calling(command)
