@@ -61,6 +61,9 @@ def values_extractor(flags, values):
         query_artist = flag_mapping["artist"]
         query_title = flag_mapping["title"]
     
+    else:
+        return None, None, None, None
+    
     return query_genre, query_country, query_artist, query_title
     
 
@@ -71,6 +74,7 @@ def site_requests(command, flags, values, page_number):
     
     
     query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
+    
 
 
     site_url = "https://coreradio.online/page/" + str(page_number) 
@@ -128,39 +132,29 @@ def site_requests(command, flags, values, page_number):
                 elements_list = [release_genre, release_country, release_artist, release_title]
 
                 if release_genre != None and release_country != None and release_artist != None and release_title != None:
+                    if command == "/all":
                         page_list.append(elements_list)
+                    elif command == "/filter":
+                        #check if the release values are equal to the query values
+                        if query_genre != None:
+                            if not any(lower_case(query_genre) in lower_case(item) for item in release_genre):
+                                continue
+                        if query_country != None:
+                            if lower_case(query_country) != lower_case(release_country):
+                                continue
+                        if query_artist != None:
+                            if lower_case(query_artist) != lower_case(release_artist):
+                                continue
+                        if query_title != None:
+                            if lower_case(query_title) != lower_case(release_title):
+                                continue
+
+                        page_list.append(elements_list)
+                        
         
             subtoken = subtoken+1
     
     return page_list
-
-'''
-def calling(attribute, value, total_page):
-    for i in range(1, total_page+1):
-        elements = site_requests(attribute, value, i)
-        if len(elements) != 0:
-            if type(attribute) == str:    
-                attribute = attribute_encoding(attribute)
-            attribute_messages = {
-            0: "Le releases il cui genere contiene il {} sono: ",
-            1: "Le releases il cui paese è {} sono: ",
-            2: "Le releases dell'artista {} sono: ",
-            3: "Le releases il cui titolo è {} sono: ",
-            4: "Le releases globali delle ultime {} pagine sono: "
-            }
-
-            if attribute in attribute_messages:
-                message = attribute_messages[attribute]
-                if attribute == 4:
-                    message = message.format(total_page)
-                else:
-                    message = message.format(value)
-                print(message)
-                print(elements)
-
-
-'''
-
 
 
 
@@ -174,7 +168,7 @@ def calling(string):
 
 
     if command == None:
-        print("Error: flag not found")
+        print("Error: Command not found")
         return None
     else:
         if command == "/all":
@@ -184,6 +178,8 @@ def calling(string):
         elif command == "/filter":
             for i in range(1, total_pages+1):
                 elements = site_requests(command, flags, values, i)
+                if len(elements) == 0:
+                    continue
                 print(elements)
         else:
             print("Error: command not found")
@@ -192,5 +188,5 @@ def calling(string):
 
 
 
-command = "/filter -gac prospective, italy, progressive metalcore 1"
+command = "/all 2"
 calling(command)
