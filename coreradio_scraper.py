@@ -5,7 +5,7 @@ Module for scraping CoreRadio website.
 import time
 import requests
 from bs4 import BeautifulSoup
-from token_extractor import arguments_checker
+from token_extractor import arguments_checker, remove_whitespace
 
 
 def song_cleaning(song):
@@ -101,7 +101,10 @@ def site_requests(command, flags, values, page_number):
     Returns:
         list: A list of scraped music information.
     """
-    query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
+    
+    if command == "/filter":
+        
+        query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
 
     site_url = "https://coreradio.online/page/" + str(page_number)
 
@@ -158,17 +161,44 @@ def site_requests(command, flags, values, page_number):
                     page_list.append(elements_list)
                 elif command == "/filter":
                     # Check if the release values are equal to the query values
-                    if query_genre and not any(lower_case(query_genre) in lower_case(item)\
-                                                for item in release_genre):
-                        continue
+
+                    # Initialize a flag to check if at least one condition is satisfied
+                    genre_satisfied = False
+
+                    if query_genre: 
+                        #split the genre by - and put into a query_genre_list
+                        query_genre_list = query_genre.split("-")
+                        #check if any of the query_genre_list is in the release_genre
+                        '''
+                        for q_genre in query_genre_list:
+                            genre_satisfied = any(lower_case(q_genre) in remove_whitespace(lower_case(genre)) for genre in release_genre)
+                            if genre_satisfied:
+                                break  # Stop checking further q_genres once a match is found
+
+                        if genre_satisfied:
+                            continue
+                        '''
+                        n_genre = len(query_genre_list)
+                        releases_counter = 0
+
+                        for q_genre in query_genre_list:
+                            releases_counter += any(lower_case(q_genre) in remove_whitespace(lower_case(r_genre)) for r_genre in release_genre)
+                            if releases_counter >= n_genre:
+                                genre_satisfied = True
+                                break   
+
                     if query_country and lower_case(query_country) != lower_case(release_country):
                         continue
+
                     if query_artist and lower_case(query_artist) != lower_case(release_artist):
                         continue
+
                     if query_title and lower_case(query_title) != lower_case(release_title):
                         continue
 
-                    page_list.append(elements_list)
+                    # Append to the list if at least one condition is satisfied
+                    if genre_satisfied is True:
+                        page_list.append(elements_list)
 
     return page_list
 
@@ -210,5 +240,5 @@ def calling(string):
 
 
 if __name__ == "__main__":
-    Command = "/filter -a spiritbox 10"
+    Command = "/filter -cg australia, technical-progressive 2"
     calling(Command)
