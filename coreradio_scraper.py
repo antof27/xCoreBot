@@ -87,6 +87,46 @@ def values_extractor(flags, values):
     return query_genre, query_country, query_artist, query_title
 
 
+def is_genre_satisfied(query_genre, release_genre):
+    if not query_genre:
+        return True
+
+    query_genre_list = query_genre.split("-")
+    n_genre = len(query_genre_list)
+    releases_counter = 0
+
+    for q_genre in query_genre_list:
+        releases_counter += any(lower_case(q_genre) in remove_whitespace(lower_case(r_genre)) for r_genre in release_genre)
+        if releases_counter >= n_genre:
+            return True
+
+    return False
+
+
+def process_elements_list(command, elements_list, query_genre, release_genre, query_country, release_country,
+                           query_artist, release_artist, query_title, release_title, page_list):
+    if all(elements_list):
+        if command == "/all":
+            page_list.append(elements_list)
+        elif command == "/filter":
+            # Initialize a flag to check if at least one condition is satisfied
+            genre_satisfied = is_genre_satisfied(query_genre, release_genre)
+
+            if query_country and lower_case(query_country) != lower_case(release_country):
+                return
+
+            if query_artist and lower_case(query_artist) != lower_case(release_artist):
+                return
+
+            if query_title and lower_case(query_title) != lower_case(release_title):
+                return
+
+            # Append to the list if at least one condition is satisfied
+            if genre_satisfied:
+                page_list.append(elements_list)
+
+
+
 def site_requests(command, flags, values, page_number):
     """
     Scrape the CoreRadio website for music information based on the given command, 
@@ -101,10 +141,11 @@ def site_requests(command, flags, values, page_number):
     Returns:
         list: A list of scraped music information.
     """
-    
+
     if command == "/filter":
-        
         query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
+    else:
+        query_genre, query_country, query_artist, query_title = None, None, None, None
 
     site_url = "https://coreradio.online/page/" + str(page_number)
 
@@ -156,49 +197,9 @@ def site_requests(command, flags, values, page_number):
 
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
-            if all(elements_list):
-                if command == "/all":
-                    page_list.append(elements_list)
-                elif command == "/filter":
-                    # Check if the release values are equal to the query values
-
-                    # Initialize a flag to check if at least one condition is satisfied
-                    genre_satisfied = False
-
-                    if query_genre: 
-                        #split the genre by - and put into a query_genre_list
-                        query_genre_list = query_genre.split("-")
-                        #check if any of the query_genre_list is in the release_genre
-                        '''
-                        for q_genre in query_genre_list:
-                            genre_satisfied = any(lower_case(q_genre) in remove_whitespace(lower_case(genre)) for genre in release_genre)
-                            if genre_satisfied:
-                                break  # Stop checking further q_genres once a match is found
-
-                        if genre_satisfied:
-                            continue
-                        '''
-                        n_genre = len(query_genre_list)
-                        releases_counter = 0
-
-                        for q_genre in query_genre_list:
-                            releases_counter += any(lower_case(q_genre) in remove_whitespace(lower_case(r_genre)) for r_genre in release_genre)
-                            if releases_counter >= n_genre:
-                                genre_satisfied = True
-                                break   
-
-                    if query_country and lower_case(query_country) != lower_case(release_country):
-                        continue
-
-                    if query_artist and lower_case(query_artist) != lower_case(release_artist):
-                        continue
-
-                    if query_title and lower_case(query_title) != lower_case(release_title):
-                        continue
-
-                    # Append to the list if at least one condition is satisfied
-                    if genre_satisfied is True:
-                        page_list.append(elements_list)
+            process_elements_list(command, elements_list, query_genre, release_genre,
+                                  query_country, release_country, query_artist, release_artist,
+                                  query_title, release_title, page_list)
 
     return page_list
 
@@ -240,5 +241,6 @@ def calling(string):
 
 
 if __name__ == "__main__":
-    Command = "/filter -cg australia, technical-progressive 2"
-    calling(Command)
+    #Command = "/filter -cg australia, technical-progressive 2"
+    Command1 = "/filter -cg germany, metalcore 50"
+    calling(Command1)
