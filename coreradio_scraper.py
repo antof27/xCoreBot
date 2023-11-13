@@ -88,6 +88,16 @@ def values_extractor(flags, values):
 
 
 def is_genre_satisfied(query_genre, release_genre):
+    """
+    Check if the query genre conditions are satisfied based on the release genres.
+
+    Args:
+        query_genre (str): The query genre.
+        release_genre (list): List of release genres.
+
+    Returns:
+        bool: True if the query genre conditions are satisfied, False otherwise.
+    """
     if not query_genre:
         return True
 
@@ -96,15 +106,39 @@ def is_genre_satisfied(query_genre, release_genre):
     releases_counter = 0
 
     for q_genre in query_genre_list:
-        releases_counter += any(lower_case(q_genre) in remove_whitespace(lower_case(r_genre)) for r_genre in release_genre)
+        releases_counter += any(lower_case(q_genre) in \
+                                 remove_whitespace(lower_case(r_genre)) \
+                                    for r_genre in release_genre)
         if releases_counter >= n_genre:
             return True
 
     return False
 
 
-def process_elements_list(command, elements_list, query_genre, release_genre, query_country, release_country,
-                           query_artist, release_artist, query_title, release_title, page_list):
+
+def process_elements_list(command, elements_list, query_genre, release_genre,
+                           query_country, release_country, query_artist,
+                           release_artist, query_title, release_title, page_list):
+    """
+    Process a list of elements based on the given   
+    command and conditions, and append to the page list.
+
+    Args:
+        command (str): The command (/all or /filter).
+        elements_list (list): List of music information elements.
+        query_genre (str): The query genre.
+        release_genre (list): List of release genres.
+        query_country (str): The query country.
+        release_country (str): The release country.
+        query_artist (str): The query artist.
+        release_artist (str): The release artist.
+        query_title (str): The query title.
+        release_title (str): The release title.
+        page_list (list): The list to append the processed elements.
+
+    Returns:
+        None
+    """
     if all(elements_list):
         if command == "/all":
             page_list.append(elements_list)
@@ -152,11 +186,8 @@ def site_requests(command, flags, values, page_number):
     print("Page: ", page_number)
     page_list = []
     elements_list = []
-
     release_genre = []
-    release_country = None
-    release_artist = None
-    release_title = None
+    release_country, release_artist, release_title = None, None, None
 
     soup = requests_and_soup(site_url)
 
@@ -226,7 +257,8 @@ def calling(string):
     if command == "/all":
         for i in range(1, total_pages + 1):
             elements = site_requests(command, flags, values, i)
-            print(elements)
+            for element in elements:
+                print(element)
     elif command == "/filter":
         for i in range(1, total_pages + 1):
             elements = site_requests(command, flags, values, i)
@@ -242,5 +274,5 @@ def calling(string):
 
 if __name__ == "__main__":
     #Command = "/filter -cg australia, technical-progressive 2"
-    Command1 = "/filter -cg germany, metalcore 50"
+    Command1 = "/all"
     calling(Command1)
