@@ -90,12 +90,9 @@ def arguments_checker(input_string):
 
             input_string, pages = pages_checker(input_string, pages)
             string_list = input_string.split(' ', 2)
-            
             tags = string_list[2]
-            
             values = tags.split(',')
             values = [remove_whitespace(value) for value in values]
-            
             if len(flags) != len(values):
                 print("Error: flags and values have different lengths")
                 return None, None, None, None
@@ -106,8 +103,9 @@ def arguments_checker(input_string):
         print("Error: invalid command")
         return None, None, None, None
     return command, flags, values, pages
-
+'''
 # Example usage:
-String = "/filter -gcat rock, usa, artist, song 50"
+String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
 Command, Flags, Values, Pages = arguments_checker(String)
 print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nPages: ", Pages)
+'''
