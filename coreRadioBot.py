@@ -69,24 +69,24 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(context.args)>5:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri, mentre ne devi inserire al più quattro! Usa /help per avere informazioni su come usare i vari comandi!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri, mentre ne devi inserire al più cinque! Usa /help per avere informazioni su come usare i vari comandi!")
         return
 
     # let's simulate lists with info about some songs
 
-    simList1 = {"artist": "Gianni", "title": "song1", "genres": ["rap","pop","rock","hard rock"], "country":"Italy"}
-    simList2 = {"artist": "Pippo", "title": "song2", "genres": ["hard rock","rock"], "country":"England"}
-    simList3 = {"artist": "Paperino", "title": "song3", "genres": ["rap","pop"], "country":"Denmark"}
-    simList4 = {"artist": "Topolino", "title": "song4", "genres": ["rock", "jazz", "blues"], "country":"Italy"}
-    simList5 = {"artist": "Minnie", "title": "song5", "genres": ["pop", "country"], "country":"Italy"}
-    simList6 = {"artist": "Paperoga", "title": "song6", "genres": ["hip-hop", "rap"], "country":"Italy"}
-    simList7 = {"artist": "Pluto", "title": "song7", "genres": ["metal", "electronic", "pop"], "country":"USA"}
-    simList8 = {"artist": "Clarabella","title": "song8", "genres": ["classical", "folk"], "country":"England"}
-    simList9 = {"artist": "Archimede", "title": "song9", "genres": ["reggae", "soul"], "country":"Germany"}
-    simList10 = {"artist": "Basettoni", "title": "song10","genres": ["pop","disco", "funk","pop"], "country":"Korea"}
-    simList11 = {"artist": "Nonna Papera", "title": "song11", "genres": ["indie", "alternative"], "country":"Poland"}
-    simList12 = {"artist": "Gastone", "title": "song12", "genres": ["punk", "experimental","pop"], "country":"Poland"}
-    simList13 = {"artist": "Ugo", "title": "song13", "genres": ["trance", "ambient","pop"],  "country":"USA"}
+    simList1 = {"artist": "Gianni", "title": "song1", "genres": ["rap","pop","rock","hard rock"], "country": "Italy"}
+    simList2 = {"artist": "Pippo", "title": "song2", "genres": ["hard rock","rock"], "country": "England"}
+    simList3 = {"artist": "Paperino", "title": "song3", "genres": ["rap","pop"], "country": "Denmark"}
+    simList4 = {"artist": "Topolino", "title": "song4", "genres": ["rock", "jazz", "blues"], "country": "Italy"}
+    simList5 = {"artist": "Minnie", "title": "song5", "genres": ["pop", "country"], "country": "Italy"}
+    simList6 = {"artist": "Paperoga", "title": "song6", "genres": ["hip-hop", "rap"], "country": "Italy"}
+    simList7 = {"artist": "Pluto", "title": "song7", "genres": ["metal", "electronic", "pop"], "country": "USA"}
+    simList8 = {"artist": "Clarabella","title": "song8", "genres": ["classical", "folk"], "country": "England"}
+    simList9 = {"artist": "Archimede", "title": "song9", "genres": ["reggae", "soul"], "country": "Germany"}
+    simList10 = {"artist": "Basettoni", "title": "song10","genres": ["pop","disco", "funk","pop"], "country": "Korea"}
+    simList11 = {"artist": "Nonna Papera", "title": "song11", "genres": ["indie", "alternative"], "country": "Poland"}
+    simList12 = {"artist": "Gastone", "title": "song12", "genres": ["punk", "experimental","pop"], "country": "Poland"}
+    simList13 = {"artist": "Ugo", "title": "song13", "genres": ["trance", "ambient","pop"],  "country": "USA"}
 
     songs = [simList1,simList2,simList3,simList4,simList5,simList6,simList7,simList8,simList9,simList10,simList11,simList12,simList13]
     
@@ -97,7 +97,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for i in range(0,len(songs)):
             if count == 10:
                 break
-            if  songs[i]["artist"]==filters["artist"] or songs[i]["title"]==filters["title"] or songs[i]["country"]==filters["country"] or all(elem in songs[i]["genres"] for elem in filters["genres"]):
+            if  songs[i]["artist"]==filters["artist"] and songs[i]["title"]==filters["title"] and songs[i]["country"]==filters["country"] and (any(elem in songs[i]["genres"] for elem in filters["genres"])):
                 text = "Titolo: "+songs[i]["title"]+"\nArtista: "+songs[i]["artist"]+"\nCountry: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
                 count = count+1
@@ -109,7 +109,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
         for i in range(0,len(songs)):
             if count == int(context.args[4]):
                 break
-            if  songs[i]["artist"]==filters["artist"] or songs[i]["title"]==filters["title"] or songs[i]["country"]==filters["country"] or (all(elem in songs[i]["genres"] for elem in filters["genres"])):
+            if  songs[i]["artist"]==filters["artist"] and songs[i]["title"]==filters["title"] and songs[i]["country"]==filters["country"] and (any(elem in songs[i]["genres"] for elem in filters["genres"])):
                 text = "Titolo: "+songs[i]["title"]+"\nArtista: "+songs[i]["artist"]+"\nCountry: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
                 count = count+1
