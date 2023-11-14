@@ -16,7 +16,7 @@ async def wrongQuestion(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text="Non ho capito ... usa il comando /help per scoprire quali sono i comandi che puoi utilizzare!")
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Ecco un elenco dei comandi che puoi usare:\n\n/all [n]: restituisce info relative alle ultime n release, senza applicare alcun filtro sulle release. Se n non è specificato, verrano restituite le ultime 10 release; \n\n /filter [titolo] [autore] [genere] [n]: restituisce info relative alle ultime n release, applicando i filtri specificati nel comando. Se n non è specificato, verrano restituite le ultime 10 release;")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Ecco un elenco dei comandi che puoi usare:\n\n/all [n]: restituisce info relative alle ultime n release, senza applicare alcun filtro sulle release. Se n non è specificato, verrano restituite le ultime 10 release; \n\n /filter artista titolo genere1-genere2-...-genereN n: restituisce info relative alle ultime n release, applicando i filtri specificati nel comando. Se n non è specificato, verrano restituite le ultime 10 release;")
 
 async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
@@ -26,19 +26,19 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # let's simulate lists with info about some songs
 
-    simList1 = {"title": "song1", "authors": ["Gianni"], "genres": ["rap,pop,rock,hard rock"]}
-    simList2 = {"title": "song2", "authors": ["Pippo","Pluto"], "genres": ["hard rock,rock"]}
-    simList3 = {"title": "song3", "authors": ["Paperino"], "genres": ["rap,pop"]}
-    simList4 = {"title": "song4", "authors": ["Topolino"], "genres": ["rock", "jazz", "blues"]}
-    simList5 = {"title": "song5", "authors": ["Minnie"], "genres": ["pop", "country"]}
-    simList6 = {"title": "song6", "authors": ["Paperoga"], "genres": ["hip-hop", "rap"]}
-    simList7 = {"title": "song7", "authors": ["Pluto"], "genres": ["metal", "electronic"]}
-    simList8 = {"title": "song8", "authors": ["Clarabella"], "genres": ["classical", "folk"]}
-    simList9 = {"title": "song9", "authors": ["Archimede"], "genres": ["reggae", "soul"]}
-    simList10 = {"title": "song10", "authors": ["Basettoni"], "genres": ["disco", "funk"]}
-    simList11 = {"title": "song11", "authors": ["Nonna Papera"], "genres": ["indie", "alternative"]}
-    simList12 = {"title": "song12", "authors": ["Gastone"], "genres": ["punk", "experimental"]}
-    simList13 = {"title": "song13", "authors": ["Ugo"], "genres": ["trance", "ambient"]}
+    simList1 = {"artist": "Gianni", "title": "song1", "genres": ["rap","pop","rock","hard rock"], "country":"Italy"}
+    simList2 = {"artist": "Pippo", "title": "song2", "genres": ["hard rock","rock"], "country":"England"}
+    simList3 = {"artist": "Paperino", "title": "song3", "genres": ["rap","pop"], "country":"Denmark"}
+    simList4 = {"artist": "Topolino", "title": "song4", "genres": ["rock", "jazz", "blues"], "country":"Italy"}
+    simList5 = {"artist": "Minnie", "title": "song5", "genres": ["pop", "country"], "country":"Italy"}
+    simList6 = {"artist": "Paperoga", "title": "song6", "genres": ["hip-hop", "rap"], "country":"Italy"}
+    simList7 = {"artist": "Pluto", "title": "song7", "genres": ["metal", "electronic", "pop"], "country":"USA"}
+    simList8 = {"artist": "Clarabella","title": "song8", "genres": ["classical", "folk"], "country":"England"}
+    simList9 = {"artist": "Archimede", "title": "song9", "genres": ["reggae", "soul"], "country":"Germany"}
+    simList10 = {"artist": "Basettoni", "title": "song10","genres": ["pop","disco", "funk","pop"], "country":"Korea"}
+    simList11 = {"artist": "Nonna Papera", "title": "song11", "genres": ["indie", "alternative"], "country":"Poland"}
+    simList12 = {"artist": "Gastone", "title": "song12", "genres": ["punk", "experimental","pop"], "country":"Poland"}
+    simList13 = {"artist": "Ugo", "title": "song13", "genres": ["trance", "ambient","pop"],  "country":"USA"}
 
 
     songs = [simList1,simList2,simList3,simList4,simList5,simList6,simList7,simList8,simList9,simList10,simList11,simList12,simList13]
@@ -46,26 +46,26 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(context.args)==0:
         if (10>len(songs)):
             for i in range(0,10):
-                text = "song "+str(i)+"\nTitolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Canzoni terminate!")
 
         else:
             for i in range(0,10):
-                text = "song "+str(i)+"\nTitolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
         
     else:
         if (int(context.args[0])>len(songs)):
             for i in range(0,len(songs)):
-                text = "song "+str(i)+"\nTitolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Canzoni terminate!")
 
         else:
             for i in range(0,int(context.args[0])):
-                text = "song "+str(i)+"\nTitolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
@@ -74,47 +74,47 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    if len(context.args)>4:
+    if len(context.args)>5:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri, mentre ne devi inserire al più quattro! Usa /help per avere informazioni su come usare i vari comandi!")
         return
 
     # let's simulate lists with info about some songs
 
-    simList1 = {"title": "song1", "authors": ["Gianni"], "genres": ["rap","pop","rock","hard rock"]}
-    simList2 = {"title": "song2", "authors": ["Pippo","Pluto"], "genres": ["hard rock","rock"]}
-    simList3 = {"title": "song3", "authors": ["Paperino"], "genres": ["rap","pop"]}
-    simList4 = {"title": "song4", "authors": ["Topolino"], "genres": ["rock", "jazz", "blues"]}
-    simList5 = {"title": "song5", "authors": ["Minnie"], "genres": ["pop", "country"]}
-    simList6 = {"title": "song6", "authors": ["Paperoga"], "genres": ["hip-hop", "rap"]}
-    simList7 = {"title": "song7", "authors": ["Pluto"], "genres": ["metal", "electronic", "pop"]}
-    simList8 = {"title": "song8", "authors": ["Clarabella"], "genres": ["classical", "folk"]}
-    simList9 = {"title": "song9", "authors": ["Archimede"], "genres": ["reggae", "soul"]}
-    simList10 = {"title": "song10", "authors": ["Basettoni"], "genres": ["pop","disco", "funk","pop"]}
-    simList11 = {"title": "song11", "authors": ["Nonna Papera"], "genres": ["indie", "alternative"]}
-    simList12 = {"title": "song12", "authors": ["Gastone"], "genres": ["punk", "experimental","pop"]}
-    simList13 = {"title": "song13", "authors": ["Ugo"], "genres": ["trance", "ambient","pop"]}
+    simList1 = {"artist": "Gianni", "title": "song1", "genres": ["rap","pop","rock","hard rock"], "country":"Italy"}
+    simList2 = {"artist": "Pippo", "title": "song2", "genres": ["hard rock","rock"], "country":"England"}
+    simList3 = {"artist": "Paperino", "title": "song3", "genres": ["rap","pop"], "country":"Denmark"}
+    simList4 = {"artist": "Topolino", "title": "song4", "genres": ["rock", "jazz", "blues"], "country":"Italy"}
+    simList5 = {"artist": "Minnie", "title": "song5", "genres": ["pop", "country"], "country":"Italy"}
+    simList6 = {"artist": "Paperoga", "title": "song6", "genres": ["hip-hop", "rap"], "country":"Italy"}
+    simList7 = {"artist": "Pluto", "title": "song7", "genres": ["metal", "electronic", "pop"], "country":"USA"}
+    simList8 = {"artist": "Clarabella","title": "song8", "genres": ["classical", "folk"], "country":"England"}
+    simList9 = {"artist": "Archimede", "title": "song9", "genres": ["reggae", "soul"], "country":"Germany"}
+    simList10 = {"artist": "Basettoni", "title": "song10","genres": ["pop","disco", "funk","pop"], "country":"Korea"}
+    simList11 = {"artist": "Nonna Papera", "title": "song11", "genres": ["indie", "alternative"], "country":"Poland"}
+    simList12 = {"artist": "Gastone", "title": "song12", "genres": ["punk", "experimental","pop"], "country":"Poland"}
+    simList13 = {"artist": "Ugo", "title": "song13", "genres": ["trance", "ambient","pop"],  "country":"USA"}
 
     songs = [simList1,simList2,simList3,simList4,simList5,simList6,simList7,simList8,simList9,simList10,simList11,simList12,simList13]
     
-    filters = {"title":context.args[0].split('-'),"authors":context.args[1].split('-'),"genres":context.args[2].split('-')}
+    filters = {"artist":context.args[0],"title":context.args[1],"genres":context.args[2].split('-'),"country":context.args[3]}
 
-    if len(context.args) < 4 :
+    if len(context.args) < 5 :
         count = 0
         for i in range(0,len(songs)):
             if count == 10:
                 break
             if  any(elem in songs[i]["title"] for elem in filters["title"]) or any(elem in songs[i]["authors"] for elem in filters["authors"]) or any(elem in songs[i]["genres"] for elem in filters["genres"]):
-                text = "Titolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
                 count = count+1
 
     else:
         count = 0
         for i in range(0,len(songs)):
-            if count == int(context.args[3]):
+            if count == int(context.args[4]):
                 break
             if  any(elem in songs[i]["title"] for elem in filters["title"]) or any(elem in songs[i]["authors"] for elem in filters["authors"]) or any(elem in songs[i]["genres"] for elem in filters["genres"]):
-                text = "Titolo: "+songs[i]["title"]+"\nAutori: "+', '.join(songs[i]["authors"])+"\nGeneri: "+', '.join(songs[i]["genres"])
+                text = "Titolo: "+songs[i]["title"]+"Artista: "+songs[i]["artist"]+"Country: "+songs[i]["country"]+"\nGeneri: "+', '.join(songs[i]["genres"])
                 await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
                 count = count+1
 
