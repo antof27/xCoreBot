@@ -43,44 +43,48 @@ def remove_whitespace(string):
     return string
 
 
-def pages_checker(string, pages=20):
+def n_songs_checker(string):
     """
-    Extract the number of pages if present and the remaining string.
+    Extract the number of songs if present and the remaining string.
 
     Args:
         string (str): The input string.
-        pages (int): Default number of pages.
+        songs (int): Default number of songs.
 
     Returns:
-        tuple: A tuple containing the modified string and the number of pages.
+        tuple: A tuple containing the modified string and the number of songs.
     """
     if string.split(' ')[-1].isdigit():
-        pages = int(string.split(' ')[-1])
+        songs = int(string.split(' ')[-1])    
         string = string.rsplit(' ', 1)[0]
-    return string, pages
+        return string, songs
+    else: 
+        return string, 20
+
 
 
 def arguments_checker(input_string):
     """
-    Parse the input string to extract the command, flags, values, and pages.
+    Parse the input string to extract the command, flags, values, and songs.
 
     Args:
         input_string (str): The input string to be parsed.
 
     Returns:
-        tuple: A tuple containing the command, flags, values, and pages.
+        tuple: A tuple containing the command, flags, values, and songs.
     """
     command = input_string.split(" ")[0]
     flags = None
     values = None
-    pages = 20
+    
+    input_string, n_songs = n_songs_checker(input_string)
 
     if command == "/all":
-        try:
-            string, pages = pages_checker(input_string, pages)
-            input_string = string
-        except ValueError:
-            return command, flags, values, pages
+        #try:
+            #string, songs = songs_checker(input_string, songs)
+            #input_string = string
+        #except ValueError:
+            return command, flags, values, n_songs
     elif command == "/filter":
         try:
             flags = input_string.split(" ")[1]
@@ -88,7 +92,7 @@ def arguments_checker(input_string):
             if flags is None:
                 return None, None, None, None
 
-            input_string, pages = pages_checker(input_string, pages)
+            #input_string, songs = songs_checker(input_string, songs)
             string_list = input_string.split(' ', 2)
             tags = string_list[2]
             values = tags.split(',')
@@ -102,10 +106,10 @@ def arguments_checker(input_string):
     else:
         print("Error: invalid command")
         return None, None, None, None
-    return command, flags, values, pages
-'''
+    return command, flags, values, n_songs
+
 # Example usage:
 String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
-Command, Flags, Values, Pages = arguments_checker(String)
-print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nPages: ", Pages)
-'''
+String1 = "/all"
+Command, Flags, Values, songs = arguments_checker(String1)
+print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nsongs: ", songs)
