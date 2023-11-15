@@ -102,7 +102,7 @@ def is_genre_satisfied(query_genre, release_genre):
     if not query_genre:
         return True
 
-    query_genre_list = query_genre.split("-")
+    query_genre_list = query_genre.split("+")
     n_genre = len(query_genre_list)
     releases_counter = 0
 
@@ -117,9 +117,11 @@ def is_genre_satisfied(query_genre, release_genre):
 
 
 
+from math import ceil
+
 def process_elements_list(command, elements_list, query_genre, release_genre,
                            query_country, release_country, query_artist,
-                           release_artist, query_title, release_title, page_list):
+                           release_artist, query_title, release_title, songs_counter, total_songs, page_list):
     """
     Process a list of elements based on the given   
     command and conditions, and append to the page list.
@@ -135,34 +137,46 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
         release_artist (str): The release artist.
         query_title (str): The query title.
         release_title (str): The release title.
+        songs_counter (int): Counter for the songs.
+        total_songs (int): Total number of songs to scrape.
         page_list (list): The list to append the processed elements.
 
     Returns:
-        None
+        int: Updated songs counter.
     """
     if all(elements_list):
         if command == "/all":
+            if songs_counter <= total_songs:
+                songs_counter += 1
             page_list.append(elements_list)
+            
         elif command == "/filter":
             # Initialize a flag to check if at least one condition is satisfied
             genre_satisfied = is_genre_satisfied(query_genre, release_genre)
 
             if query_country and lower_case(query_country) != lower_case(release_country):
-                return
+                songs_counter += 1
+                return songs_counter
 
             if query_artist and lower_case(query_artist) != lower_case(release_artist):
-                return
+                songs_counter += 1
+                return songs_counter
 
             if query_title and lower_case(query_title) != lower_case(release_title):
-                return
+                songs_counter += 1
+                return songs_counter
 
-            # Append to the list if at least one condition is satisfied
-            if genre_satisfied:
+            # Append to the list if at least one condition is satisfied and songs_counter is within limit
+            if genre_satisfied and songs_counter <= total_songs:
+                songs_counter += 1
                 page_list.append(elements_list)
+            else:
+                songs_counter += 1
+                
+    return songs_counter
 
 
-
-def site_requests(command, flags, values, page_number):
+def site_requests(command, flags, values, page_number, total_songs, songs_counter):
     """
     Scrape the CoreRadio website for music information based on the given command, 
     flags, and page number.
@@ -171,13 +185,12 @@ def site_requests(command, flags, values, page_number):
         command (str): The command (/all or /filter).
         flags (list): List of flags.
         values (list): List of corresponding values.
-        page_number (int): The page number to scrape.
+        total_songs (int): The total number of songs to scrape.
 
     Returns:
         list: A list of scraped music information.
     """
     
-
     if command == "/filter":
         query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
     else:
@@ -185,12 +198,10 @@ def site_requests(command, flags, values, page_number):
 
     site_url = "https://coreradio.online/page/" + str(page_number)
 
-    print("Page: ", page_number)
     page_list = []
     elements_list = []
     release_genre = []
     release_country, release_artist, release_title = None, None, None
-
     soup = requests_and_soup(site_url)
 
     # Find the content div
@@ -230,26 +241,18 @@ def site_requests(command, flags, values, page_number):
 
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
-            process_elements_list(command, elements_list, query_genre, release_genre,
+            if songs_counter <= total_songs:
+                #print("Elements list: ", elements_list, "songs counter: ", songs_counter, "total songs: ", total_songs)
+                songs_counter = process_elements_list(command, elements_list, query_genre, release_genre,
                                   query_country, release_country, query_artist, release_artist,
-                                  query_title, release_title, page_list)
-
-    return page_list
-
-
-
-def filter_final_list(lists, n_songs):
-    counter = 0
-    final_list = []
-    for list in lists: 
-        for element in list:
-            counter += 1
-            if counter <= n_songs:
-                final_list.append(element)
+                                  query_title, release_title, songs_counter, total_songs, page_list)
             else:
                 break
-    final_list.reverse()
-    return final_list
+
+    return page_list, songs_counter
+
+
+    
 
 
 def calling(string):
@@ -270,42 +273,38 @@ def calling(string):
     #calculate page_number as the ceiling of the total_songs
     final_list = []
     page_number = ceil(total_songs/32)
-    
+    songs_counter = 1
     if command is None:
         print("Error: Command not found")
         return None
     if command == "/all":
         for i in range(1, page_number + 1):
-            elements = site_requests(command, flags, values, i)
-            final_list.append(elements)
+            elements, songs_counter = site_requests(command, flags, values, i, total_songs, songs_counter)
+            final_list.extend(elements)
 
     elif command == "/filter":
         for i in range(1, page_number + 1):
-            elements = site_requests(command, flags, values, i)
+            elements, songs_counter = site_requests(command, flags, values, i, total_songs, songs_counter)
             if len(elements) == 0:
                 continue
-            final_list.append(elements)
+            final_list.extend(elements)
     else:
         print("Error: command not found")
         return None
     
-    final_list = filter_final_list(final_list, total_songs)
+    final_list.reverse()
     return final_list
 
 
 
-def print_dict(final_list):
-    print("final_list: ", final_list)
-    counter = 0
-    for element in final_list:
-        counter += 1
-        print(element)
+def print_outcomes(final_list):
+    for i in final_list:
+        print(i)
 
-    print("Total songs: ", counter)
     
 
 
 if __name__ == "__main__":
-    #Command = "/filter -cg australia, technical-progressive 2"
-    Command1 = "/all 240"
-    print_dict(calling(Command1))
+    Command = "/filter -g post-hardcore+metalcore 10"
+    #Command1 = "/all 240"
+    print_outcomes(calling(Command))
