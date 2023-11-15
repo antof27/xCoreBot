@@ -3,11 +3,10 @@ Module for scraping CoreRadio website.
 """
 
 import time
+from math import ceil
 import requests
 from bs4 import BeautifulSoup
 from token_extractor import arguments_checker, remove_whitespace
-from math import ceil
-
 
 def song_cleaning(song):
     """
@@ -120,8 +119,9 @@ def is_genre_satisfied(query_genre, release_genre):
 from math import ceil
 
 def process_elements_list(command, elements_list, query_genre, release_genre,
-                           query_country, release_country, query_artist,
-                           release_artist, query_title, release_title, songs_counter, total_songs, page_list):
+                            query_country, release_country, query_artist,
+                            release_artist, query_title, release_title,
+                            songs_counter, total_songs, page_list):
     """
     Process a list of elements based on the given   
     command and conditions, and append to the page list.
@@ -149,29 +149,20 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
             if songs_counter <= total_songs:
                 songs_counter += 1
             page_list.append(elements_list)
-            
         elif command == "/filter":
             # Initialize a flag to check if at least one condition is satisfied
             genre_satisfied = is_genre_satisfied(query_genre, release_genre)
 
-            if query_country and lower_case(query_country) != lower_case(release_country):
-                songs_counter += 1
-                return songs_counter
-
-            if query_artist and lower_case(query_artist) != lower_case(release_artist):
-                songs_counter += 1
-                return songs_counter
-
-            if query_title and lower_case(query_title) != lower_case(release_title):
-                songs_counter += 1
-                return songs_counter
+            if (query_country and lower_case(query_country) != lower_case(release_country)) or \
+                (query_artist and lower_case(query_artist) != lower_case(release_artist)) or \
+                (query_title and lower_case(query_title) != lower_case(release_title)):
+                 songs_counter += 1
+                 return songs_counter
 
             # Append to the list if at least one condition is satisfied and songs_counter is within limit
+            songs_counter += 1
             if genre_satisfied and songs_counter <= total_songs:
-                songs_counter += 1
                 page_list.append(elements_list)
-            else:
-                songs_counter += 1
                 
     return songs_counter
 
@@ -242,10 +233,12 @@ def site_requests(command, flags, values, page_number, total_songs, songs_counte
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
             if songs_counter <= total_songs:
-                #print("Elements list: ", elements_list, "songs counter: ", songs_counter, "total songs: ", total_songs)
-                songs_counter = process_elements_list(command, elements_list, query_genre, release_genre,
-                                  query_country, release_country, query_artist, release_artist,
-                                  query_title, release_title, songs_counter, total_songs, page_list)
+                #print("Elements list: ", elements_list, "songs counter: ",\
+                # songs_counter, "total songs: ", total_songs)
+                songs_counter = process_elements_list(command, elements_list, query_genre, 
+                                    release_genre, query_country, release_country, query_artist,
+                                    release_artist, query_title, release_title, songs_counter,
+                                    total_songs, page_list)
             else:
                 break
 
@@ -266,13 +259,17 @@ def calling(string):
         None
     """
     command, flags, values, total_songs = arguments_checker(string)
-    print("Command: ", command)
-    print("Flags: ", flags)
-    print("Values: ", values)
-    print("Total songs: ", total_songs)
+    # print("Command: ", command)
+    # print("Flags: ", flags)
+    # print("Values: ", values)
+    # print("Total songs: ", total_songs)
     #calculate page_number as the ceiling of the total_songs
     final_list = []
-    page_number = ceil(total_songs/32)
+    try:
+        page_number = ceil(total_songs/32)
+    except TypeError:
+        print("Error: invalid command")
+        return None
     songs_counter = 1
     if command is None:
         print("Error: Command not found")
@@ -298,13 +295,16 @@ def calling(string):
 
 
 def print_outcomes(final_list):
-    for i in final_list:
-        print(i)
+    try: 
+        for i in final_list:
+            print(i)
+    except TypeError:
+        return None
 
     
 
 
 if __name__ == "__main__":
-    Command = "/filter -g post-hardcore+metalcore 10"
+    Command = "/filter -g groove 400"
     #Command1 = "/all 240"
     print_outcomes(calling(Command))
