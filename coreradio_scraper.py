@@ -6,6 +6,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from token_extractor import arguments_checker, remove_whitespace
+from math import ceil
 
 
 def song_cleaning(song):
@@ -175,6 +176,7 @@ def site_requests(command, flags, values, page_number):
     Returns:
         list: A list of scraped music information.
     """
+    
 
     if command == "/filter":
         query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
@@ -235,6 +237,21 @@ def site_requests(command, flags, values, page_number):
     return page_list
 
 
+
+def filter_final_list(lists, n_songs):
+    counter = 0
+    final_list = []
+    for list in lists: 
+        for element in list:
+            counter += 1
+            if counter <= n_songs:
+                final_list.append(element)
+            else:
+                break
+    final_list.reverse()
+    return final_list
+
+
 def calling(string):
     """
     Parse the input string and execute the corresponding command.
@@ -245,34 +262,50 @@ def calling(string):
     Returns:
         None
     """
-    command, flags, values, total_pages = arguments_checker(string)
+    command, flags, values, total_songs = arguments_checker(string)
     print("Command: ", command)
     print("Flags: ", flags)
     print("Values: ", values)
-    print("Total pages: ", total_pages)
-
+    print("Total songs: ", total_songs)
+    #calculate page_number as the ceiling of the total_songs
+    final_list = []
+    page_number = ceil(total_songs/32)
+    
     if command is None:
         print("Error: Command not found")
-        return
+        return None
     if command == "/all":
-        for i in range(1, total_pages + 1):
+        for i in range(1, page_number + 1):
             elements = site_requests(command, flags, values, i)
-            for element in elements:
-                print(element)
+            final_list.append(elements)
+
     elif command == "/filter":
-        for i in range(1, total_pages + 1):
+        for i in range(1, page_number + 1):
             elements = site_requests(command, flags, values, i)
             if len(elements) == 0:
                 continue
-            for element in elements:
-                print(element)
+            final_list.append(elements)
     else:
         print("Error: command not found")
-        return
+        return None
+    
+    final_list = filter_final_list(final_list, total_songs)
+    return final_list
 
+
+
+def print_dict(final_list):
+    print("final_list: ", final_list)
+    counter = 0
+    for element in final_list:
+        counter += 1
+        print(element)
+
+    print("Total songs: ", counter)
+    
 
 
 if __name__ == "__main__":
     #Command = "/filter -cg australia, technical-progressive 2"
-    Command1 = "/all"
-    calling(Command1)
+    Command1 = "/all 240"
+    print_dict(calling(Command1))
