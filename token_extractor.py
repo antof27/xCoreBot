@@ -31,7 +31,6 @@ def flags_mapping(string):
     return words
 
 
-
 def n_songs_checker(string):
     """
     Extract the number of songs if present and the remaining string.
@@ -47,9 +46,8 @@ def n_songs_checker(string):
         songs = int(string.split(' ')[-1])    
         string = string.rsplit(' ', 1)[0]
         return string, songs
-    else: 
-        return string, 20
-
+     
+    return string, 20
 
 
 def arguments_checker(input_string):
@@ -69,11 +67,7 @@ def arguments_checker(input_string):
     input_string, n_songs = n_songs_checker(input_string)
 
     if command == "/all":
-        #try:
-            #string, songs = songs_checker(input_string, songs)
-            #input_string = string
-        #except ValueError:
-            return command, flags, values, n_songs
+        return command, flags, values, n_songs
     elif command == "/filter":
         try:
             flags = input_string.split(" ")[1]
@@ -81,7 +75,6 @@ def arguments_checker(input_string):
             if flags is None:
                 return None, None, None, None
 
-            #input_string, songs = songs_checker(input_string, songs)
             string_list = input_string.split(' ', 2)
             tags = string_list[2]
             values = tags.split(',')
@@ -96,10 +89,9 @@ def arguments_checker(input_string):
         print("Error: invalid command")
         return None, None, None, None
     return command, flags, values, n_songs
-'''
+
 # Example usage:
-String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
-String1 = "/all"
-Command, Flags, Values, songs = arguments_checker(String1)
-print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nsongs: ", songs)
-'''
+# String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
+# String1 = "/all"
+# Command, Flags, Values, songs = arguments_checker(String1)
+# print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nsongs: ", songs)
