@@ -2,6 +2,8 @@
 Module for extracting tokens from input strings.
 """
 
+from strings_operations import remove_whitespace
+
 def flags_mapping(string):
     """
     Map flags to their corresponding attributes.
@@ -28,19 +30,6 @@ def flags_mapping(string):
     words = [char_to_word[char] for char in string if char in char_to_word]
     return words
 
-
-def remove_whitespace(string):
-    """
-    Remove leading and trailing whitespace from a string.
-
-    Args:
-        string (str): The input string.
-
-    Returns:
-        str: The string with leading and trailing whitespace removed.
-    """
-    string = string.strip()
-    return string
 
 
 def n_songs_checker(string):
@@ -107,9 +96,10 @@ def arguments_checker(input_string):
         print("Error: invalid command")
         return None, None, None, None
     return command, flags, values, n_songs
-
+'''
 # Example usage:
 String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
 String1 = "/all"
 Command, Flags, Values, songs = arguments_checker(String1)
 print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nsongs: ", songs)
+'''
