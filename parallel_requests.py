@@ -1,8 +1,12 @@
+"""
+Module for parallelized web scraping of CoreRadio website.
+"""
 
+from math import ceil
+from concurrent.futures import ThreadPoolExecutor
 from token_extractor import arguments_checker
 from site_requests import site_requests_maker
-from concurrent.futures import ThreadPoolExecutor
-from math import ceil
+
 
 def site_requests_wrapper(args):
     """
@@ -15,6 +19,7 @@ def site_requests_wrapper(args):
         tuple: The result of site_requests.
     """
     return site_requests_maker(*args)
+
 
 def calling_parallel(string, max_workers=16):
     """
@@ -43,7 +48,8 @@ def calling_parallel(string, max_workers=16):
         return None
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        args_list = [(command, flags, values, i, total_songs, songs_counter) for i in range(1, page_number + 1)]
+        args_list = [(command, flags, values, i, total_songs, songs_counter) \
+                     for i in range(1, page_number + 1)]
         results = list(executor.map(site_requests_wrapper, args_list))
 
     for elements, _ in results:
@@ -51,6 +57,7 @@ def calling_parallel(string, max_workers=16):
 
     final_list.reverse()
     return final_list
+
 
 
 
@@ -82,18 +89,19 @@ def calling_parallel(string, max_workers=16):
 #         return None
 #     if command == "/all":
 #         for i in range(1, page_number + 1):
-#             elements, songs_counter = site_requests(command, flags, values, i, total_songs, songs_counter)
+#             elements, songs_counter = \
+#                  site_requests(command, flags, values, i, total_songs, songs_counter)
 #             final_list.extend(elements)
 
 #     elif command == "/filter":
 #         for i in range(1, page_number + 1):
-#             elements, songs_counter = site_requests(command, flags, values, i, total_songs, songs_counter)
+#             elements, songs_counter = \
+#                   site_requests(command, flags, values, i, total_songs, songs_counter)
 #             if len(elements) == 0:
 #                 continue
 #             final_list.extend(elements)
 #     else:
 #         print("Error: command not found")
 #         return None
-    
 #     final_list.reverse()
 #     return final_list
