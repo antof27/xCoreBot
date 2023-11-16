@@ -1,8 +1,13 @@
+"""
+Module for making requests and scraping music information from the CoreRadio website.
+"""
+
+import time
+import requests
+from bs4 import BeautifulSoup
 from strings_operations import song_cleaning, values_extractor
 from element_processing import process_elements_list
-import requests
-import time
-from bs4 import BeautifulSoup
+
 
 
 def requests_and_soup(url):
@@ -38,11 +43,12 @@ def site_requests_maker(command, flags, values, page_number, total_songs, songs_
     Returns:
         list: A list of scraped music information.
     """
-    
     if command == "/filter":
-        query_genre, query_country, query_artist, query_title = values_extractor(flags, values)
+        query_genre, query_country,\
+              query_artist, query_title = values_extractor(flags, values)
     else:
-        query_genre, query_country, query_artist, query_title = None, None, None, None
+        query_genre, query_country, \
+            query_artist, query_title = None, None, None, None
 
     site_url = "https://coreradio.online/page/" + str(page_number)
 
@@ -98,5 +104,4 @@ def site_requests_maker(command, flags, values, page_number, total_songs, songs_
                                     total_songs, page_list)
             else:
                 break
-
     return page_list, songs_counter
