@@ -27,24 +27,29 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
     Returns:
         int: Updated songs counter.
     """
-    if all(elements_list):
-        if command == "/all":
-            if songs_counter <= total_songs:
-                songs_counter += 1
-            page_list.append(elements_list)
-        elif command == "/filter":
-            # Initialize a flag to check if at least one condition is satisfied
-            genre_satisfied = is_genre_satisfied(query_genre, release_genre)
+    # Avoid unnecessary nesting
+    if not all(elements_list):
+        return songs_counter
 
-            if (query_country and lower_case(query_country) != lower_case(release_country)) or \
-                (query_artist and lower_case(query_artist) != lower_case(release_artist)) or \
-                (query_title and lower_case(query_title) != lower_case(release_title)):
-                 songs_counter += 1
-                 return songs_counter
-
-            # Append to the list if at least one condition is satisfied and songs_counter is within limit
+    if command == "/all":
+        if songs_counter <= total_songs:
             songs_counter += 1
-            if genre_satisfied and songs_counter <= total_songs:
-                page_list.append(elements_list)
-                
+        page_list.append(elements_list)
+    elif command == "/filter":
+        # Initialize a flag to check if at least one condition is satisfied
+        genre_satisfied = is_genre_satisfied(query_genre, release_genre)
+
+        country_condition = query_country and lower_case(query_country) != lower_case(release_country)
+        artist_condition = query_artist and lower_case(query_artist) != lower_case(release_artist)
+        title_condition = query_title and lower_case(query_title) != lower_case(release_title)
+
+        if country_condition or artist_condition or title_condition:
+            songs_counter += 1
+            return songs_counter
+
+        # Append to the list if at least one condition is satisfied and songs_counter is within limit
+        songs_counter += 1
+        if genre_satisfied and songs_counter <= total_songs:
+            page_list.append(elements_list)
+
     return songs_counter
