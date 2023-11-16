@@ -2,9 +2,7 @@
 Module for scraping CoreRadio website.
 """
 
-import time
 from parallel_requests import calling_parallel
-
 
 def print_outcomes(final_list):
     """
@@ -17,18 +15,13 @@ def print_outcomes(final_list):
         None: Returns None if a TypeError occurs during printing.
     """
     try:
-        for i in final_list:
-            print(i)
+        for item in final_list:
+            print(item)
     except TypeError:
-        return None    
-
+        pass
 
 if __name__ == "__main__":
     print("Insert a valid command!")
-    Command = input()
+    user_input = input()
     print("Searching...")
-    start_time = time.time()
-    print_outcomes(calling_parallel(Command))
-    
-    end_time = time.time()
-    print("Time elapsed: ", end_time - start_time)
+    print_outcomes(calling_parallel(user_input))
