@@ -1,3 +1,7 @@
+"""
+Module for checking genre conditions.
+"""
+
 from strings_operations import lower_case, remove_whitespace
 
 def is_genre_satisfied(query_genre, release_genre):
@@ -19,9 +23,10 @@ def is_genre_satisfied(query_genre, release_genre):
     releases_counter = 0
 
     for q_genre in query_genre_list:
-        releases_counter += any(lower_case(q_genre) in \
-                                 remove_whitespace(lower_case(r_genre)) \
-                                    for r_genre in release_genre)
+        releases_counter += any(
+            lower_case(q_genre) in remove_whitespace(lower_case(r_genre))
+            for r_genre in release_genre
+        )
         if releases_counter >= n_genre:
             return True
 
