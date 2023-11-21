@@ -40,31 +40,18 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     simList12 = ["Gastone", "song12", ["punk", "experimental", "pop"], "Poland"]
     simList13 = ["Ugo", "song13", ["trance", "ambient", "pop"], "USA"]
 
-
-
     songs = [simList1,simList2,simList3,simList4,simList5,simList6,simList7,simList8,simList9,simList10,simList11,simList12,simList13]
 
-    if len(context.args)==0:
-        count = 0
-        for i in range(0,len(songs)):
-            if count == 10:
-                break
-            text = "Titolo: "+songs[i][1]+"\nArtista: "+songs[i][0]+"\nCountry: "+songs[i][3]+"\nGeneri: "+', '.join(songs[i][2])
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-            count = count+1
+    count = 0
+    limit = 10 if len(context.args) == 0 else int(context.args[0])
 
-        
-    else:
-        count = 0
-        for i in range(0,len(songs)):
-            if count == int(context.args[0]):
-                break
-            text = "Titolo: "+songs[i][1]+"\nArtista: "+songs[i][0]+"\nCountry: "+songs[i][3]+"\nGeneri: "+', '.join(songs[i][2])
-            await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-            count = count+1
+    for song in songs:
+        if count == limit:
+            break
 
-
-
+        text = f"Titolo: {song[1]}\nArtista: {song[0]}\nCountry: {song[3]}\nGeneri: {', '.join(song[2])}"
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        count += 1
 
 
 async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -98,7 +85,26 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     filters = {"artist":context.args[0], "title":context.args[1], "genres":context.args[2].split('-'), "country":context.args[3]}
 
-    if len(context.args) < 5 :
+    limit = 10 if len(context.args) < 5 else int(context.args[4])
+    filtered_songs = [
+        song for song in songs
+        if song[0] == filters["artist"]
+        and song[1] == filters["title"]
+        and song[3] == filters["country"]
+        and any(elem in song[2] for elem in filters["genres"])
+    ]
+
+    count = 0
+    for song in filtered_songs[:limit]:
+        text = f"Titolo: {song[1]}\nArtista: {song[0]}\nCountry: {song[3]}\nGeneri: {', '.join(song[2])}"
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        count += 1
+
+    if count == 0:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
+    
+    
+    '''if len(context.args) < 5 :
         count = 0
         for i in range(0,len(songs)):
             if count == 10:
@@ -121,7 +127,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 count = count+1
         if count == 0:
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
-
+'''
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(config.TOKEN).build()
