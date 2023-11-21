@@ -102,32 +102,6 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if count == 0:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
-    
-    
-    '''if len(context.args) < 5 :
-        count = 0
-        for i in range(0,len(songs)):
-            if count == 10:
-                break
-            if  songs[i][0]==filters["artist"] and songs[i][1]==filters["title"] and songs[i][3]==filters["country"] and (any(elem in songs[i][2] for elem in filters["genres"])):
-                text = "Titolo: "+songs[i][1]+"\nArtista: "+songs[i][0]+"\nCountry: "+songs[i][3]+"\nGeneri: "+', '.join(songs[i][2])
-                await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-                count = count+1
-        if count == 0:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
-
-    else:
-        count = 0
-        for i in range(0,len(songs)):
-            if count == int(context.args[4]):
-                break
-            if  songs[i][0]==filters["artist"] and songs[i][1]==filters["title"] and songs[i][3]==filters["country"] and (any(elem in songs[i][2] for elem in filters["genres"])):
-                text = "Titolo: "+songs[i][1]+"\nArtista: "+songs[i][0]+"\nCountry: "+songs[i][3]+"\nGeneri: "+', '.join(songs[i][2])
-                await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
-                count = count+1
-        if count == 0:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
-'''
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(config.TOKEN).build()
