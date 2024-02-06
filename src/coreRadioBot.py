@@ -34,10 +34,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(context.args)>1:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito\
-                                        "+str(len(context.args))+" parametri, mentre ne\
-                                              devi inserire uno solo! Usa /help per avere informazioni \
-                                                su come usare i vari comandi!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri, mentre ne devi inserire uno solo! Usa /help per avere informazioni su come usare i vari comandi!")
         return
 
     # let's simulate lists with info about some songs
@@ -72,34 +69,24 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     count = 0
     limit = 10 if len(context.args) == 0 else int(context.args[0])
+    text = ""
 
     for song in songs:
         if count == limit:
             break
 
-        text = f"Titolo: {song[1]}\n\
-                 Artista: {song[0]}\n\
-                 Country: {song[3]}\n\
-                 Generi: {', '.join(song[2])}"
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        text = text + f"Titolo: {song[1]}\nArtista: {song[0]}\nCountry: {song[3]}\nGeneri: {', '.join(song[2])}\n\n"
         count += 1
 
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(context.args)>5:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="\
-                                        Hai inserito "+str(len(context.args))+"\
-                                        parametri, mentre ne devi inserire al più cinque! \
-                                        Usa /help per avere informazioni su come usare i \
-                                        vari comandi!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri, mentre ne devi inserire cinque! Usa /help per avere informazioni su come usare i vari comandi!")
         return
     if len(context.args)<4:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="\
-                                       Hai inserito "+str(len(context.args))+"\
-                                        parametri ... tutti i parametri sono obbligatori!\
-                                        Usa /help per avere informazioni su come usare i vari\
-                                        comandi!")
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Hai inserito "+str(len(context.args))+" parametri ... tutti i parametri sono obbligatori! Usa /help per avere informazioni su come usare i vari comandi!")
         return
 
     # let's simulate lists with info about some songs
@@ -132,13 +119,15 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
 
     count = 0
+    text = ""
     for song in filtered_songs[:limit]:
-        text = f"Titolo: {song[1]}\nArtista: {song[0]}\nCountry: {song[3]}\nGeneri: {', '.join(song[2])}"
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        text = text + f"Titolo: {song[1]}\nArtista: {song[0]}\nCountry: {song[3]}\nGeneri: {', '.join(song[2])}"
         count += 1
 
     if count == 0:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Nessun risultato trovato...")
+    else:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(config.TOKEN).build()
