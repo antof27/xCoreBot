@@ -3,6 +3,8 @@
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
+import sys
+sys.path.insert(1,'..')
 import config
 
 logging.basicConfig(
@@ -11,25 +13,24 @@ logging.basicConfig(
 )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user = update.message.from_user
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Ciao "+user['username']+", sono xCoreBot!\
-                                   \nSono un bot che permette di ottenere info sulle ultime release nell'ambito della musica Metal.\
-                                   \nUsa il comando '/help' per scoprire quali sono i comandi che puoi utilizzare!")
+    user = update.message.from_user.username
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="Ciao "+str(user)+", sono xCoreBot!\nSono un bot che permette di ottenere info sulle ultime release nell'ambito della musica Metal.Usa il comando '/help' per scoprire quali sono i comandi che puoi utilizzare!")
 
 async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Non ho capito ...\
-                                    \nusa il comando /help per scoprire quali sono i comandi che puoi utilizzare!")
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Non ho capito ...\nusa il comando /help per scoprire quali sono i comandi che puoi utilizzare!"
+    )
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="Ecco un elenco dei\
-                                    comandi che puoi usare:\n\n/all [n]: restituisce info relative\
-                                    alle ultime n release, senza applicare alcun filtro sulle release.\
-                                    Se n non è specificato, verrano restituite le ultime 10 release; \
-                                   \n\n /filter artista titolo genere1-genere2-...-genereN country [n]: \
-                                   restituisce info relative alle ultime n release, applicando i filtri specificati\
-                                    nel comando. Se n non è specificato, \
-                                   verrano restituite le ultime 10 release;")
+    await context.bot.send_message(chat_id=update.effective_chat.id,text = "Ecco un elenco dei comandi che puoi usare:\n\n" \
+            "/all [n]: restituisce info relative alle ultime n release, senza applicare alcun filtro sulle release. " \
+            "Se n non è specificato, verrano restituite le ultime 10 release; \n\n" \
+            "/filter artista titolo genere1-genere2-...-genereN country [n]: restituisce info relative alle ultime n release, " \
+            "applicando i filtri specificati nel comando. Se n non è specificato, verrano restituite le ultime 10 release;"
 
+)
+                               
 async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(context.args)>1:
