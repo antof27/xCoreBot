@@ -95,7 +95,7 @@ def site_requests_maker(command, flags, values, page_number, total_songs, songs_
 
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
-            if songs_counter <= total_songs:
+            if songs_counter < total_songs:
                 #print("Elements list: ", elements_list, "songs counter: ",\
                 # songs_counter, "total songs: ", total_songs)
                 songs_counter = process_elements_list(command, elements_list, query_genre, 
