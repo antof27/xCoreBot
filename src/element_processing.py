@@ -1,5 +1,5 @@
-from strings_operations import lower_case
-from genre_checker import is_genre_satisfied
+from src.strings_operations import lower_case
+from src.genre_checker import is_genre_satisfied
 
 def process_elements_list(command, elements_list, query_genre, release_genre,
                             query_country, release_country, query_artist,

@@ -2,7 +2,7 @@
 Module for checking genre conditions.
 """
 
-from strings_operations import lower_case, remove_whitespace
+from src.strings_operations import lower_case, remove_whitespace
 
 def is_genre_satisfied(query_genre, release_genre):
     """

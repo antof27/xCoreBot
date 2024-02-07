@@ -5,8 +5,8 @@ Module for making requests and scraping music information from the CoreRadio web
 import time
 import requests
 from bs4 import BeautifulSoup
-from strings_operations import song_cleaning, values_extractor
-from element_processing import process_elements_list
+from src.strings_operations import song_cleaning, values_extractor
+from src.element_processing import process_elements_list
 
 
 
