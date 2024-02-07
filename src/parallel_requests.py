@@ -41,7 +41,7 @@ def calling_parallel(string, max_workers=16):
         print("Error: invalid command")
         return None
 
-    songs_counter = 1
+    songs_counter = 0
 
     if command is None:
         print("Error: Command not found")

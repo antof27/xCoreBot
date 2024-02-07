@@ -17,7 +17,7 @@ from src.strings_operations import lower_case, remove_whitespace
 
 @pytest.mark.parametrize("query_genre, release_genre, expected_result", [
     ("", ["progressive metalcore", "hardcore", "metalcore"], True),  # Empty query genre
-    ("progressive", ["metalcore", "rapcore", "progressive"], True),  # Single query genre present
+    ("progressive", ["metalcore", "rapcore", "Progressive Metalcore"], True),  # Single query genre present
     ("deathcore", ["alternative metal", "nu metal", "metalcore"], False),  # Single query genre absent
     ("progressive+metalcore", ["progressive metalcore", "hardcore", "metalcore"], True),  # Multiple query genres all present
     ("progressive+deathcore", ["progressive metalcore", "hardcore", "metalcore"], False),  # Multiple query genres, one missing

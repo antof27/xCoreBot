@@ -63,6 +63,8 @@ def values_extractor(flags, values):
         if flag in flags:
             index = flags.index(flag)
             flag_mapping[flag] = values[index]
+    
+    
 
     return flag_mapping["genre"], flag_mapping["country"], \
         flag_mapping["artist"], flag_mapping["title"]
