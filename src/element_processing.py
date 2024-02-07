@@ -31,13 +31,17 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
     if not all(elements_list):
         return songs_counter
 
+    print("Elements list: ", elements_list)
     if command == "/all":
-        if songs_counter <= total_songs:
+        if songs_counter < total_songs:
             songs_counter += 1
         page_list.append(elements_list)
     elif command == "/filter":
         # Initialize a flag to check if at least one condition is satisfied
+        print("We are here")
         genre_satisfied = is_genre_satisfied(query_genre, release_genre)
+        print("Genre satisfied: ", genre_satisfied)
+        
 
         country_condition = query_country and lower_case(query_country) != lower_case(release_country)
         artist_condition = query_artist and lower_case(query_artist) != lower_case(release_artist)
@@ -49,7 +53,7 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
 
         # Append to the list if at least one condition is satisfied and songs_counter is within limit
         songs_counter += 1
-        if genre_satisfied and songs_counter <= total_songs:
+        if genre_satisfied and songs_counter < total_songs:
             page_list.append(elements_list)
-
+        
     return songs_counter
