@@ -2,7 +2,7 @@
 Module for scraping CoreRadio website.
 """
 
-from parallel_requests import calling_parallel
+from src.parallel_requests import calling_parallel
 
 def print_outcomes(final_list):
     """

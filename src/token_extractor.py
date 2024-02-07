@@ -2,7 +2,7 @@
 Module for extracting tokens from input strings.
 """
 
-from strings_operations import remove_whitespace
+from src.strings_operations import remove_whitespace
 
 def flags_mapping(string):
     """
