@@ -1,7 +1,8 @@
 """
 Module for making requests and scraping music information from the CoreRadio website.
 """
-
+#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#The import-error can be ignored as it is a false negative error
 import time
 import requests
 from bs4 import BeautifulSoup
