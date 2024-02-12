@@ -9,7 +9,6 @@ from src.strings_operations import song_cleaning, values_extractor
 from src.element_processing import process_elements_list
 
 
-
 def requests_and_soup(url):
     """
     Send a request to a URL and return the BeautifulSoup object of the response.
@@ -31,7 +30,7 @@ def requests_and_soup(url):
 
 def site_requests_maker(command, flags, values, page_number, total_songs, songs_counter):
     """
-    Scrape the CoreRadio website for music information based on the given command, 
+    Scrape the CoreRadio website for music information based on the given command,
     flags, and page number.
 
     Args:
@@ -98,7 +97,7 @@ def site_requests_maker(command, flags, values, page_number, total_songs, songs_
             if songs_counter < total_songs:
                 #print("Elements list: ", elements_list, "songs counter: ",\
                 # songs_counter, "total songs: ", total_songs)
-                songs_counter = process_elements_list(command, elements_list, query_genre, 
+                songs_counter = process_elements_list(command, elements_list, query_genre,
                                     release_genre, query_country, release_country, query_artist,
                                     release_artist, query_title, release_title, songs_counter,
                                     total_songs, page_list)
