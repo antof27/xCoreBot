@@ -43,10 +43,9 @@ def n_songs_checker(string):
         tuple: A tuple containing the modified string and the number of songs.
     """
     if string.split(' ')[-1].isdigit():
-        songs = int(string.split(' ')[-1])    
+        songs = int(string.split(' ')[-1])
         string = string.rsplit(' ', 1)[0]
         return string, songs
-     
     return string, 20
 
 
@@ -63,12 +62,11 @@ def arguments_checker(input_string):
     command = input_string.split(" ")[0]
     flags = None
     values = None
-    
     input_string, n_songs = n_songs_checker(input_string)
 
     if command == "/all":
         return command, flags, values, n_songs
-    elif command == "/filter":
+    if command == "/filter":
         try:
             flags = input_string.split(" ")[1]
             flags = flags_mapping(flags)
@@ -82,8 +80,8 @@ def arguments_checker(input_string):
             if len(flags) != len(values):
                 print("Error: flags and values have different lengths")
                 return None, None, None, None
-        except Exception as e:
-            print("Error:", str(e))
+        except Exception as exception:
+            print("Error:", str(exception))
             return None, None, None, None
     else:
         print("Error: invalid command")
