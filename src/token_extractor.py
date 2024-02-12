@@ -1,7 +1,8 @@
 """
 Module for extracting tokens from input strings.
 """
-
+#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#The import-error can be ignored as it is a false negative error
 from src.strings_operations import remove_whitespace
 
 def flags_mapping(string):
