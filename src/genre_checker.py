@@ -1,6 +1,8 @@
 """
 Module for checking genre conditions.
 """
+#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#The import-error can be ignored as it is a false negative error
 
 from src.strings_operations import lower_case, remove_whitespace
 
@@ -21,14 +23,13 @@ def is_genre_satisfied(query_genre, release_genre):
     query_genre_list = query_genre.split("+")
     n_genre = len(query_genre_list)
     releases_counter = 0
-    
 
     for q_genre in query_genre_list:
         releases_counter += any(
             lower_case(q_genre) in remove_whitespace(lower_case(r_genre))
             for r_genre in release_genre
         )
-        
+
         if releases_counter >= n_genre:
             return True
 
