@@ -1,3 +1,10 @@
+"""
+Module: element_processing
+
+This module provides functions for processing elements.
+"""
+#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#The import-error can be ignored as it is a false negative error
 from src.strings_operations import lower_case
 from src.genre_checker import is_genre_satisfied
 
@@ -6,7 +13,7 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
                             release_artist, query_title, release_title,
                             songs_counter, total_songs, page_list):
     """
-    Process a list of elements based on the given   
+    Process a list of elements based on the given
     command and conditions, and append to the page list.
 
     Args:
@@ -31,29 +38,27 @@ def process_elements_list(command, elements_list, query_genre, release_genre,
     if not all(elements_list):
         return songs_counter
 
-    print("Elements list: ", elements_list)
     if command == "/all":
         if songs_counter < total_songs:
             songs_counter += 1
         page_list.append(elements_list)
     elif command == "/filter":
         # Initialize a flag to check if at least one condition is satisfied
-        print("We are here")
         genre_satisfied = is_genre_satisfied(query_genre, release_genre)
-        print("Genre satisfied: ", genre_satisfied)
-        
 
-        country_condition = query_country and lower_case(query_country) != lower_case(release_country)
-        artist_condition = query_artist and lower_case(query_artist) != lower_case(release_artist)
-        title_condition = query_title and lower_case(query_title) != lower_case(release_title)
+        country_condition = query_country and \
+            lower_case(query_country) != lower_case(release_country)
+        artist_condition = query_artist and \
+            lower_case(query_artist) != lower_case(release_artist)
+        title_condition = query_title \
+            and lower_case(query_title) != lower_case(release_title)
 
         if country_condition or artist_condition or title_condition:
             songs_counter += 1
             return songs_counter
-
-        # Append to the list if at least one condition is satisfied and songs_counter is within limit
+        # Append to the list if at least one condition is satisfied
+        # and songs_counter is within limit
         songs_counter += 1
         if genre_satisfied and songs_counter < total_songs:
             page_list.append(elements_list)
-        
     return songs_counter
