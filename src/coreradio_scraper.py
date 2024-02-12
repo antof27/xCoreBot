@@ -1,7 +1,11 @@
 """
 Module for scraping CoreRadio website.
 """
-import os , sys
+#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#The import-error can be ignored as it is a false negative error
+import os
+import sys
+
 # Get the current script's file path
 script_path = os.path.abspath(__file__)
 
