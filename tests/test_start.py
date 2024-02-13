@@ -14,5 +14,6 @@ async def test_start():
     await start(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="Ciao user_test, sono xCoreBot!\nSono un bot che permette di ottenere info sulle ultime release nell'ambito della musica Metal.Usa il comando '/help' per scoprire quali sono i comandi che puoi utilizzare!"
+        text="Hello user_test, I'm xCoreBot!\nI'm a bot that provides information about the latest releases in the Metal music genre. Use the command '/help' to discover the commands you can use!"
     )
+    

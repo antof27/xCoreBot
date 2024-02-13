@@ -3,9 +3,9 @@
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
-from src.coreradio_scraper import query_results
 import sys
 sys.path.insert(1,'..')
+from src.coreradio_scraper import query_results
 import config
 
 logging.basicConfig(

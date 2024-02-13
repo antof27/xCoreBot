@@ -14,5 +14,5 @@ async def test_help():
 
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text = "Non ho capito ...\nusa il comando /help per scoprire quali sono i comandi che puoi utilizzare!"
+        text = "I didn't understand ...\nuse the command /help to discover which commands you can use!"
     )
