@@ -1,8 +1,8 @@
 # xCoreBot
 
-<img src="./Presentation/images/logo.png">
+<img src="./img/xcorebot_logo.png">
 
-Developed by **Antonio Finocchiaro** and **Salvatore Sambataro**, this project is part of the **Quality Development** course at the University of Catania.
+Developed by **Antonio Finocchiaro** and **Salvatore Alfio Sambataro**, this project is part of the **Quality Development** course at the University of Catania.
 
 ## Project Goal
 
