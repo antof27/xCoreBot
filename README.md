@@ -18,9 +18,21 @@ They can choose to retrieve all the latest releases or specify a subset based on
 ## Project Structure
 
 ## How to execute the project
+### Install requirements
 
-### Initial setup
+Use pip or pip3 to install the dev requirements for the software usage and testing:
 
+```bash
+pip3 install -r ./src/requirements.txt
+pip3 install -r ./tests/requirements.txt
+```
 
 ### Start project
+Execute <code>python3 coreRadioBot.py</code> in the src folder.
+### Software Testing
 
+Run the following command in the main directory to obtain a html report about the Pytest Coverage
+
+```bash
+$ pytest --cov ./src ./tests --cov-report=html
+```
