@@ -17,7 +17,7 @@ They can choose to retrieve all the latest releases or specify a subset based on
 </ul>
 
 ## Project Structure
-<img src="./img/xcorebot_pipe.png">
+<img src="./img/xcorebot_pipe.png" width="60%">
 ## How to execute the project
 ### Install requirements
 
