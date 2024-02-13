@@ -40,7 +40,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
     songs = query_results(update.message.text)
-    text = ""
+    messages = []
 
     for song in songs:
         title = song[2]
@@ -48,7 +48,7 @@ async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE
         country = song[1]
         genres = song[0]
         
-        text += f"Title : {title}\nArtist : {artist}\nCountry : {country}\n"
+        text = f"Title : {title}\nArtist : {artist}\nCountry : {country}\n"
 
         # Iterate genres and append to text
         text += "Genres : "
@@ -57,8 +57,20 @@ async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE
         text = text[:-2]  # Remove the last comma and space
         text += "\n\n"
 
-    text += "These are the results of your query, where the oldest songs are displayed first. Enjoy!"
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        messages.extend(split_message(text))
+
+    messages.append("These are the results of your query, where the oldest songs are displayed first. Enjoy!")
+
+    for msg in messages:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
+
+def split_message(text, max_length=4096):
+    """Split a message into chunks."""
+    if len(text) <= max_length:
+        return [text]
+    chunks = [text[i:i+max_length] for i in range(0, len(text), max_length)]
+    return chunks
+
 
 async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await print_query_results(update, context)
