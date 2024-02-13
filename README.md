@@ -11,11 +11,9 @@ They can choose to retrieve all the latest releases or specify a subset based on
 
 ## Technologies used
 <ul>
-<li> <strong>Web Scraping</strong>: <a href="[https://www.crummy.com/software/BeautifulSoup/bs4/doc/](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)">BeautifulSoup</a>
-<li> <strong>Centralized service</strong>: <a href="https://zookeeper.apache.org/">Zookeeper</a></li>
-<li> <strong>Data Ingestion</strong>: <a href="https://www.elastic.co/logstash/">Logstash</a></li>
-<li><strong>Data Streaming</strong>: <a href="https://www.confluent.io/what-is-apache-kafka/">Apache Kafka</a> and <a href="https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html">Spark Structured Streaming</a></li>
-<li><strong>Data Processing</strong>: <a href="https://spark.apache.org/">Apache Spark</a> with <a href="https://spark.apache.org/docs/1.2.2/ml-guide.html">SparkML</a>, <a href="https://spacy.io">Spacy</a> and <a href="https://textblob.readthedocs.io/en/dev/">TextBlob</a></li>
+<li> <strong>Web Scraping</strong>: <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a>
+<li> <strong>Parallel Tasks</strong>: <a href="https://docs.python.org/3/library/concurrent.futures.html">Concurrent Futures</a></li>
+<li> <strong>Telegram Bot</strong>: <a href="https://www.elastic.co/logstash/](https://core.telegram.org/bots/api">Telegram</a></li>
 
 ## Project Structure
 
