@@ -3,8 +3,17 @@
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
+import os
 import sys
-sys.path.insert(1,'..')
+
+# Get the current script's file path
+script_path = os.path.abspath(__file__)
+
+# Get the directory containing the script
+script_directory = os.path.dirname(script_path)
+parent_directory = os.path.dirname(script_directory)
+
+sys.path.insert(1, parent_directory)
 from src.coreradio_scraper import query_results
 import config
 
@@ -34,7 +43,6 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
             "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
     )
-
 
 
 
