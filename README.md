@@ -18,9 +18,11 @@ They can choose to retrieve all the latest releases or specify a subset based on
 
 ## Project Structure
 <img src="./img/xcorebot_pipe.png" width="60%">
-## How to execute the project
-### Install requirements
 
+## How to execute the project
+In order to execute the Telegram Bot, you need to follow some steps.
+### Install requirements
+Install the libraries needed first.
 Use pip or pip3 to install the dev requirements for the software usage and testing:
 
 ```bash
@@ -30,6 +32,7 @@ pip3 install -r ./tests/requirements.txt
 
 ### Start project
 Execute <code>python3 coreRadioBot.py</code> in the /src folder.
+
 ### Software Testing
 
 Run the following command in the main directory to obtain a html report about the Pytest Coverage
