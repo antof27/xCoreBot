@@ -32,10 +32,9 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "/all [n]: returns information about the last n releases, without applying any filter on the releases. " \
             "If n is not specified, the last 20 releases will be returned;\n\n" \
             "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
-            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;")
+            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
+    )
 
-
-)
 
 
 
