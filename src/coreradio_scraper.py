@@ -33,8 +33,13 @@ def print_outcomes(final_list):
     except TypeError:
         pass
 
-if __name__ == "__main__":
-    print("Insert a valid command!")
-    user_input = input()
-    print("Searching...")
-    print_outcomes(calling_parallel(user_input))
+# if __name__ == "__main__":
+#     print("Insert a valid command!")
+#     user_input = input()
+#     print("Searching...")
+#     print_outcomes(calling_parallel(user_input))
+#     #calling_parallel(user_input)
+
+def query_results(command_query):
+    results = calling_parallel(command_query)
+    return results
