@@ -1,5 +1,3 @@
-# xCoreBot
-
 <img src="./img/xcorebot_logo.png">
 
 Developed by **Antonio Finocchiaro** and **Salvatore Alfio Sambataro**, this project is part of the **Quality Development** course at the University of Catania.
@@ -20,7 +18,7 @@ They can choose to retrieve all the latest releases or specify a subset based on
 <img src="./img/xcorebot_pipe.png" width="60%">
 
 ## How to execute the project
-In order to execute the Telegram Bot, you need to follow some steps.
+To execute the Telegram Bot, you need to follow some steps.
 ### Install requirements
 Install the libraries needed first.
 Use pip or pip3 to install the dev requirements for the software usage and testing:
