@@ -37,7 +37,7 @@ To interact with the Bot:
 
 <ul>
   <li>Open Telegram</li>
-  <li>Search 'xCoreBot` and start a conversation</li>
+  <li>Search <code>xCoreBot</code> and start a conversation</li>
   <li>Digit '/help` to obtain information about its usage</li>
 </ul>
 
