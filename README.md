@@ -13,7 +13,7 @@ They can choose to retrieve all the latest releases or specify a subset based on
 <ul>
 <li> <strong>Web Scraping</strong>: <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a>
 <li> <strong>Parallel Tasks</strong>: <a href="https://docs.python.org/3/library/concurrent.futures.html">Concurrent Futures</a></li>
-<li> <strong>Telegram Bot</strong>: <a href="https://www.elastic.co/logstash/](https://core.telegram.org/bots/api">Telegram</a></li>
+<li> <strong>Telegram API</strong>: <a href="https://core.telegram.org/bots/api">Telegram</a></li>
 </ul>
 
 ## Project Structure
