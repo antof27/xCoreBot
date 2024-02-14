@@ -36,14 +36,14 @@ Execute <code>python3 coreRadioBot.py</code> in the /src folder.
 To interact with the Bot:
 
 <ul>
-  <li>Open Telegram</li>
-  <li>Search <em>xCoreBot</em> and start a conversation</li>
-  <li>Digit <code>/help</code> to obtain information about its usage</li>
+  <li>Open Telegram.</li>
+  <li>Search <em>xCoreBot</em> and start a conversation.</li>
+  <li>Digit <code>/help</code> to obtain information about its usage.</li>
 </ul>
 
 ### Software Testing
 
-Run the following command in the main directory to obtain a html report about the Pytest Coverage
+Run the following command in the main directory to obtain a HTML report about the Pytest Coverage!
 
 ```bash
 $ pytest --cov ./src ./tests --cov-report=html
