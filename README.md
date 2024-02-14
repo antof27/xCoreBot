@@ -33,6 +33,14 @@ pip3 install -r ./tests/requirements.txt
 ### Start project
 Execute <code>python3 coreRadioBot.py</code> in the /src folder.
 
+To interact with the Bot:
+
+<ul>
+  <li>Open Telegram</li>
+  <li>Search 'xCoreBot` and start a conversation</li>
+  <li>Digit '/help` to obtain information about its usage</li>
+</ul>
+
 ### Software Testing
 
 Run the following command in the main directory to obtain a html report about the Pytest Coverage
