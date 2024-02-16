@@ -1,7 +1,7 @@
 """
 Module for parallelized web scraping of CoreRadio website.
 """
-#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#Run Pylint with the following command: pylint --disable=E0401 parallel_requests.py 
 #The import-error can be ignored as it is a false negative error
 from math import ceil
 from concurrent.futures import ThreadPoolExecutor
