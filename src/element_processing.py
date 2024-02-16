@@ -3,7 +3,7 @@ Module: element_processing
 
 This module provides functions for processing elements.
 """
-#Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
+#Run Pylint with the following command: pylint --disable=E0401 element_processing.py 
 #The import-error can be ignored as it is a false negative error
 from src.strings_operations import lower_case
 from src.genre_checker import is_genre_satisfied
