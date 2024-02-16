@@ -66,8 +66,12 @@ def arguments_checker(input_string):
     input_string, n_songs = n_songs_checker(input_string)
 
     if command == "/all":
-        if len(input_string.split(" ")) > 1:
+        
+        if len(input_string.split(" ")) > 1 and not input_string.split(" ")[1].isdigit():
             print("Error: invalid command")
+            return None, None, None, None
+        
+        if len(input_string.split(" ")) > 1:
             return None, None, None, None
         
         return command, flags, values, n_songs
