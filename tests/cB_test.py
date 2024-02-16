@@ -11,11 +11,19 @@ script_directory = os.path.dirname(script_path)
 parent_directory = os.path.dirname(script_directory)
 sys.path.insert(1, parent_directory)
 
-from src.coreRadioBot import start, help, wrong_question
+from src.coreRadioBot import start, help, wrong_question, filter, all
 from src.coreradio_scraper import query_results
 from telegram import Update
 from telegram.ext import ContextTypes
 import pytest
+
+def split_message(text, max_length=4096):
+    """Split a message into chunks."""
+    if len(text) <= max_length:
+        return [text]
+    chunks = [text[i:i+max_length] for i in range(0, len(text), max_length)]
+    return chunks
+
 
 
 @pytest.mark.asyncio
@@ -62,67 +70,192 @@ async def test_wrong_question():
         text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
     )
 
-# Reworked all function
-async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Call query_results with "/all" command
-    results = query_results("/all")
-    # Print the results directly
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=results)
 
-# Reworked filter function
-async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Call query_results with the filter command from update.message.text
-    results = query_results(update.message.text)
-    # Print the results directly
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=results)
 
-# Test for all function
+
+# #results = query_results(update.message.text)
+
+
 @pytest.mark.asyncio
-async def test_all():
-    # Mock Update and ContextTypes objects
+async def test_filter_less_arguments():
     update = Mock()
-    context = MagicMock()
-    # Mock query_results function
-    query_results_mock = Mock()
-    # Mock results returned by query_results
-    
-    mock_results = "Result for /all"
-    query_results_mock.return_value = mock_results
-    # Set update.message.text to "/all"
-    update.message.text = "/all"
-    
-    # Call all function
-    await all(update, context)
+    context = Mock()
+    context.bot.send_message = AsyncMock()  # Use AsyncMock for asynchronous function
+    context.args = ["-gc", "Metalcore"]  # Example: only 2 arguments
+    # Mocking the message text to be a real string
+    update.message.text = "/filter -gc Metalcore"
 
-    # Ensure that query_results was called with the correct arguments
-    query_results_mock.assert_called_once_with("/all")
-
-    # Ensure that send_message was called with the correct arguments
-    context.bot.send_message.assert_called_once_with(chat_id=update.effective_chat.id, text=mock_results)
-
-
-
-
-
-# Test for filter function
-@pytest.mark.asyncio
-async def test_filter():
-    # Mock Update and ContextTypes objects
-    update = Mock()
-    context = MagicMock()
-    # Mock query_results function
-    query_results_mock = Mock()
-    # Mock results returned by query_results
-    mock_results = "Result for /filter -c USA 10"
-    query_results_mock.return_value = mock_results
-    # Set update.message.text to "/filter -c USA 10"
-    update.message.text = "/filter -c USA 10"
-
-    # Call filter function
     await filter(update, context)
 
-    # Ensure that query_results was called with the correct arguments
-    query_results_mock.assert_called_once_with("/filter -c USA 10")
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+    )
 
-    # Ensure that send_message was called with the correct arguments
-    context.bot.send_message.assert_called_once_with(chat_id=update.effective_chat.id, text=mock_results)
+
+
+
+@pytest.mark.asyncio
+async def test_filter_one_argument():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = ["-a"] #Example: only 1 argument
+
+    update.message.text = "/filter -a"
+
+    await filter(update, context)
+
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+    )
+
+
+@pytest.mark.asyncio
+async def test_filter_more_arguments():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = ["-gcat","metalcore","USA","artist4","Song","Other","Another"] #Example: too many arguments
+    
+    update.message.text = "/filter -gcat metalcore, USA, artist4, Song, Other, Another"
+
+    await filter(update, context)
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+    )
+
+@pytest.mark.asyncio
+async def test_filter_find_results():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = ["-c", "USA", "200"] 
+    
+    update.message.text = "/filter -c USA 200"
+
+    songs = query_results(update.message.text)
+    messages = []
+
+    for song in songs:
+        title = song[2]
+        artist = song[3]
+        country = song[1]
+        genres = song[0]
+        
+        text = f"Title : {title}\nArtist : {artist}\nCountry : {country}\n"
+
+        # Iterate genres and append to text
+        text += "Genres : "
+        for genre in genres:
+            text += genre + ", "
+        text = text[:-2]  # Remove the last comma and space
+        text += "\n\n"
+
+        messages.extend(split_message(text))
+
+    if not messages:
+        messages.append("No results found for your query. Try again with different filters.")
+    else:
+        messages.append("These are the results of your query, where the oldest songs are displayed first. Enjoy!")
+
+    await filter(update, context)
+
+    # Assert that send_message is called with each message in messages list
+    for msg in messages:
+        context.bot.send_message.assert_any_call(chat_id=update.effective_chat.id, text=msg)
+
+
+@pytest.mark.asyncio
+async def test_filter_no_results():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = ["-c","fakeCountry"] 
+    
+    update.message.text = "/filter -c fakeCountry"
+
+    await filter(update, context)
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="No results found for your query. Try again with different filters."
+    )
+
+
+
+@pytest.mark.asyncio
+async def test_all_no_digit():
+    update = Mock()
+    context = Mock()
+    context.args = ["Keyword"] #Example: only the first song
+    context.bot.send_message = AsyncMock()
+
+    update.message.text = "/all Keyword"
+
+    await all(update, context)
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+    )
+
+
+
+@pytest.mark.asyncio
+async def test_no_argument():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = [] #Example: no argument: return first 20 songs
+
+
+    update.message.text = "/all"
+
+    songs = query_results(update.message.text)
+    messages = []
+
+    for song in songs:
+        title = song[2]
+        artist = song[3]
+        country = song[1]
+        genres = song[0]
+        
+        text = f"Title : {title}\nArtist : {artist}\nCountry : {country}\n"
+
+        # Iterate genres and append to text
+        text += "Genres : "
+        for genre in genres:
+            text += genre + ", "
+        text = text[:-2]  # Remove the last comma and space
+        text += "\n\n"
+
+        messages.extend(split_message(text))
+
+    if not messages:
+        messages.append("No results found for your query. Try again with different filters.")
+    else:
+        messages.append("These are the results of your query, where the oldest songs are displayed first. Enjoy!")
+
+    await all(update, context)
+
+    # Assert that send_message is called with each message in messages list
+    for msg in messages:
+        context.bot.send_message.assert_any_call(chat_id=update.effective_chat.id, text=msg)
+
+        
+
+@pytest.mark.asyncio
+async def test_all_too_many_argument():
+    update = Mock()
+    context = Mock()
+    context.bot.send_message = AsyncMock()
+    context.args = ["10", "20"]
+
+    update.message.text = "/all 10 20"
+
+    await all(update, context)
+    context.bot.send_message.assert_called_once_with(
+        chat_id=update.effective_chat.id,
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+    )

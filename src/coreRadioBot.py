@@ -67,8 +67,10 @@ async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE
         text += "\n\n"
 
         messages.extend(split_message(text))
-
-    messages.append("These are the results of your query, where the oldest songs are displayed first. Enjoy!")
+    if not messages:
+        messages.append("No results found for your query. Try again with different filters.")
+    else:
+        messages.append("These are the results of your query, where the oldest songs are displayed first. Enjoy!")
 
     for msg in messages:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
