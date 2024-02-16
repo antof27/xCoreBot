@@ -14,8 +14,8 @@ script_directory = os.path.dirname(script_path)
 parent_directory = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
-
 from src.parallel_requests import calling_parallel
+
 
 def print_outcomes(final_list):
     """
@@ -33,13 +33,19 @@ def print_outcomes(final_list):
     except TypeError:
         pass
 
-# if __name__ == "__main__":
-#     print("Insert a valid command!")
-#     user_input = input()
-#     print("Searching...")
-#     print_outcomes(calling_parallel(user_input))
-#     #calling_parallel(user_input)
-
 def query_results(command_query):
+    """
+    Retrieve query results based on the provided command query.
+
+    This function fetches results by calling a parallel execution mechanism
+    to process the command query efficiently. The results are returned for further
+    processing or display.
+
+    Args:
+        command_query (str): The command query to be processed.
+
+    Returns:
+        list: A list containing the query results retrieved based on the provided command query.
+    """
     results = calling_parallel(command_query)
     return results
