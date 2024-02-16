@@ -15,6 +15,7 @@ parent_directory = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 from src.coreradio_scraper import query_results
+from src.token_extractor import arguments_checker
 import config
 
 logging.basicConfig(
@@ -80,10 +81,25 @@ def split_message(text, max_length=4096):
     return chunks
 
 
+
+
+
 async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Extracting arguments using tuple unpacking
+    c, f, v, n = arguments_checker(update.message.text)
+    # Checking if all arguments are None
+    if c is None and f is None and v is None and n is None:
+        await wrong_question(update, context)
+        return
     await print_query_results(update, context)
 
 async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # Extracting arguments using tuple unpacking
+    c, f, v, n = arguments_checker(update.message.text)
+    # Checking if all arguments are None
+    if c is None and f is None and v is None and n is None:
+        await wrong_question(update, context)
+        return
     await print_query_results(update, context)
 
 

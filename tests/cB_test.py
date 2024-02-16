@@ -85,6 +85,7 @@ async def test_all():
     # Mock query_results function
     query_results_mock = Mock()
     # Mock results returned by query_results
+    
     mock_results = "Result for /all"
     query_results_mock.return_value = mock_results
     # Set update.message.text to "/all"
@@ -98,6 +99,10 @@ async def test_all():
 
     # Ensure that send_message was called with the correct arguments
     context.bot.send_message.assert_called_once_with(chat_id=update.effective_chat.id, text=mock_results)
+
+
+
+
 
 # Test for filter function
 @pytest.mark.asyncio
