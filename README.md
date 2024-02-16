@@ -46,3 +46,5 @@ Run the following command in the main directory to obtain a HTML report about th
 ```bash
 $ pytest --cov ./src ./tests --cov-report=html
 ```
+The overall coverage of the project is 88%
+
