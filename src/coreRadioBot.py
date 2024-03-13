@@ -53,11 +53,11 @@ if TOKEN is None:
     raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
 
 # Get the current script's file path
-script_path = os.path.abspath(__file__)
+script_path: str = os.path.abspath(__file__)
 
 # Get the directory containing the script
-script_directory = os.path.dirname(script_path)
-parent_directory = os.path.dirname(script_directory)
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 from src.coreradio_scraper import query_results

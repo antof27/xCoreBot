@@ -6,6 +6,18 @@ This module provides functions for processing elements.
 #Run Pylint with the following command: pylint --disable=E0401 element_processing.py 
 #The import-error can be ignored as it is a false negative error
 from typing import List, Union
+import os 
+import sys
+
+# Get the current script's file path
+script_path: str = os.path.abspath(__file__)
+
+# Get the directory containing the script
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
+
+sys.path.insert(1, parent_directory)
+
 from src.strings_operations import lower_case
 from src.genre_checker import is_genre_satisfied
 
