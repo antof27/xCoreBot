@@ -42,16 +42,6 @@ from typing import Any, List, Union
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
-# For local testing purposes uncomment the following lines 
-# with open("token_config.yaml", 'r') as stream:
-#     config = yaml.safe_load(stream)
-# TOKEN = config['TOKEN']
-
-TOKEN = os.environ.get('TOKEN')
-
-if TOKEN is None:
-    raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
-
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
 
@@ -62,6 +52,22 @@ parent_directory: str = os.path.dirname(script_directory)
 sys.path.insert(1, parent_directory)
 from src.coreradio_scraper import query_results
 from src.token_extractor import arguments_checker
+
+
+
+#For local testing purposes uncomment the following lines 
+with open("token_config.yaml", 'r') as stream:
+    config = yaml.safe_load(stream)
+TOKEN = config['TOKEN']
+
+'''
+TOKEN = os.environ.get('TOKEN')
+
+if TOKEN is None:
+    raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
+'''
+
+
 
 
 logging.basicConfig(
