@@ -29,7 +29,7 @@ jobs:
           if [ -f requirements_dev.txt ]; then pip install -r requirements_dev.txt; fi
       - name: Lint with pylint
         run: |
-          pylint src --exit-zero
+          pylint src --disable=C0301,E0401 --exit-zero
 
           
       - name: Test with pytest
