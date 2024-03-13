@@ -8,6 +8,18 @@ import time
 from typing import List, Tuple
 import requests
 from bs4 import BeautifulSoup
+import os 
+import sys 
+
+# Get the current script's file path
+script_path: str = os.path.abspath(__file__)
+
+# Get the directory containing the script
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
+
+sys.path.insert(1, parent_directory)
+
 from src.strings_operations import song_cleaning, values_extractor
 from src.element_processing import process_elements_list
 

@@ -6,6 +6,18 @@ Module for parallelized web scraping of CoreRadio website.
 from math import ceil
 from typing import List, Tuple, Union
 from concurrent.futures import ThreadPoolExecutor
+import os 
+import sys 
+
+# Get the current script's file path
+script_path: str = os.path.abspath(__file__)
+
+# Get the directory containing the script
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
+
+sys.path.insert(1, parent_directory)
+
 from src.token_extractor import arguments_checker
 from src.site_requests import site_requests_maker
 
