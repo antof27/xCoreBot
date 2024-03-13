@@ -40,19 +40,18 @@ import yaml
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
-#import the yaml file to get the token
 
-try: 
-    with open("token_config.yaml", 'r') as stream:
-        config = yaml.safe_load(stream)
-except yaml.YAMLError as exc:
-    print(exc)
-     
 
-try: 
-    TOKEN = config['TOKEN']
-except KeyError:
-    print("The token is not found")
+# with open("token_config.yaml", 'r') as stream:
+#     config = yaml.safe_load(stream)
+
+      
+# TOKEN = config['TOKEN']
+
+TOKEN = os.environ.get('TOKEN')
+
+if TOKEN is None:
+    raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
 
 # Get the current script's file path
 script_path = os.path.abspath(__file__)
@@ -232,10 +231,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    try: 
-        application = ApplicationBuilder().token(TOKEN).build()
-    except NameError:
-        print("The token is not found")
+    application = ApplicationBuilder().token(TOKEN).build()
     start_handler = CommandHandler('start', start)
     wrongQuestion_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), wrong_question)
     help_handler = CommandHandler('help',help)
