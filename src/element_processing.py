@@ -61,7 +61,7 @@ def process_elements_list(command: str,
 
     # Avoid unnecessary nesting
     if not all(elements_list):
-        return songs_counter
+        return songs_counter, page_list_copy
 
     if command == "/all":
         if songs_counter < total_songs:
@@ -80,7 +80,7 @@ def process_elements_list(command: str,
 
         if country_condition or artist_condition or title_condition:
             songs_counter += 1
-            return songs_counter
+            return songs_counter, page_list_copy
         # Append to the list if at least one condition is satisfied
         # and songs_counter is within limit
         songs_counter += 1
