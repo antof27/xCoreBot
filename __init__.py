@@ -42,6 +42,14 @@ from typing import Any, List, Union
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
+HELP = "Here is a list of commands you can use:\n\n" \
+            "/all [n]: returns information about the last n releases, without applying any filter on the releases. " \
+            "If n is not specified, the last 20 releases will be returned;\n\n" \
+            "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
+            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
+
+WRONG_QUESTION = "I didn't understand ...\nuse the command /help to discover which commands you can use!"
+
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
 
@@ -86,6 +94,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     Returns:
         None
     """
+    
+    
     user = update.message.from_user.username
     await context.bot.send_message(chat_id=update.effective_chat.id,
                                    text=f"Hello {user}, I'm xCoreBot!\nI'm a bot that provides information about the latest releases in the Metal music genre. Use the command '/help' to discover the commands you can use!")
@@ -104,7 +114,7 @@ async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
 
 
@@ -120,11 +130,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         None
     """
     await context.bot.send_message(chat_id=update.effective_chat.id,
-                                   text="Here is a list of commands you can use:\n\n" \
-            "/all [n]: returns information about the last n releases, without applying any filter on the releases. " \
-            "If n is not specified, the last 20 releases will be returned;\n\n" \
-            "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
-            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
+                                   text=HELP
     )
 
 

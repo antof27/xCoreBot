@@ -4,6 +4,14 @@ import os
 import sys
 from typing import List
 
+HELP = "Here is a list of commands you can use:\n\n" \
+            "/all [n]: returns information about the last n releases, without applying any filter on the releases. " \
+            "If n is not specified, the last 20 releases will be returned;\n\n" \
+            "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
+            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
+
+WRONG_QUESTION = "I didn't understand ...\nuse the command /help to discover which commands you can use!"
+
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
 
@@ -54,11 +62,7 @@ async def test_help() -> None:
     await help(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="Here is a list of commands you can use:\n\n" \
-            "/all [n]: returns information about the last n releases, without applying any filter on the releases. " \
-            "If n is not specified, the last 20 releases will be returned;\n\n" \
-            "/filter -[atgc] [\"artist\", \"title\", \"[genre1+genre2+...+genren], \"country\"] [n]: returns information about the last n releases, " \
-            "applying the filters specified in the command. If n is not specified, the last 20 releases will be returned;"
+        text=HELP
     )
 
 @pytest.mark.asyncio
@@ -70,14 +74,8 @@ async def test_wrong_question() -> None:
     await wrong_question(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
-
-
-
-
-# #results = query_results(update.message.text)
-
 
 @pytest.mark.asyncio
 async def test_filter_less_arguments() -> None:
@@ -92,7 +90,7 @@ async def test_filter_less_arguments() -> None:
 
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
 
 
@@ -111,7 +109,7 @@ async def test_filter_one_argument() -> None:
 
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
 
 
@@ -127,7 +125,7 @@ async def test_filter_more_arguments() -> None:
     await filter(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
 
 @pytest.mark.asyncio
@@ -200,7 +198,7 @@ async def test_all_no_digit() -> None:
     await all(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
 
 
@@ -260,5 +258,5 @@ async def test_all_too_many_argument() -> None:
     await all(update, context)
     context.bot.send_message.assert_called_once_with(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=WRONG_QUESTION
     )
