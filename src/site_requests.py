@@ -23,6 +23,8 @@ sys.path.insert(1, parent_directory)
 from src.strings_operations import song_cleaning, values_extractor
 from src.element_processing import process_elements_list
 
+TIMEOUT = 10
+
 def requests_and_soup(url: str) -> BeautifulSoup:
     """
     Send a request to a URL and return the BeautifulSoup object of the response.
@@ -34,10 +36,10 @@ def requests_and_soup(url: str) -> BeautifulSoup:
         BeautifulSoup: The BeautifulSoup object of the response.
     """
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout= TIMEOUT)
     except requests.exceptions.RequestException:
         time.sleep(5)
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout= TIMEOUT)
 
     soup = BeautifulSoup(response.text, "html.parser")
     return soup

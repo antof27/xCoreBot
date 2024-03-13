@@ -14,9 +14,11 @@ sys.path.insert(1, parent_directory)
 
 from src.coreradio_scraper import calling_parallel, print_outcomes
 
-# Mocking arguments_checker to avoid actual parsing of string
-def mocked_arguments_checker(string: str) ->  List[str]:
-    return "/all", [], [], 100
+DEFAULT_NUMBER_OF_SONGS = 100  
+
+# Mocking arguments_retriever to avoid actual parsing of string
+def mocked_arguments_retriever(string: str) ->  List[str]:
+    return "/all", [], [], DEFAULT_NUMBER_OF_SONGS
 
 
 def test_print_outcomes(capsys) -> None:

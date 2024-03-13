@@ -1,9 +1,7 @@
 import os 
 import sys 
-
 import pytest
 from unittest.mock import patch
-
 
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
@@ -13,7 +11,6 @@ script_directory: str = os.path.dirname(script_path)
 parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
-
 
 from src.strings_operations import song_cleaning, values_extractor
 from src.element_processing import process_elements_list

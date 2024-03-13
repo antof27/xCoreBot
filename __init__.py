@@ -50,12 +50,12 @@ script_directory: str = os.path.dirname(script_path)
 
 sys.path.insert(1, script_directory)
 from src.coreradio_scraper import query_results
-from src.token_extractor import arguments_checker
+from src.token_extractor import arguments_retriever
 
 
 
 #For local testing purposes uncomment the following lines 
-'''
+
 with open("./src/token_config.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
 TOKEN = config['TOKEN']
@@ -66,7 +66,8 @@ TOKEN = os.environ.get('TOKEN')
 
 if TOKEN is None:
     raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
-
+'''
+    
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -200,7 +201,7 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         None
     """
     # Extracting arguments using tuple unpacking
-    c, f, v, n = arguments_checker(update.message.text)
+    c, f, v, n = arguments_retriever(update.message.text)
     # Checking if all arguments are None
     if c is None and f is None and v is None and n is None:
         await wrong_question(update, context)
@@ -222,7 +223,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         None
     """
     # Extracting arguments using tuple unpacking
-    c, f, v, n = arguments_checker(update.message.text)
+    c, f, v, n = arguments_retriever(update.message.text)
     # Checking if all arguments are None
     if c is None and f is None and v is None and n is None:
         await wrong_question(update, context)
