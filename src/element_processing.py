@@ -56,6 +56,9 @@ def process_elements_list(command: str,
     Returns:
         int: Updated songs counter.
     """
+
+    page_list_copy: List[List[Union[str, List[str]]]] = page_list.copy() 
+
     # Avoid unnecessary nesting
     if not all(elements_list):
         return songs_counter
@@ -63,7 +66,7 @@ def process_elements_list(command: str,
     if command == "/all":
         if songs_counter < total_songs:
             songs_counter += 1
-        page_list.append(elements_list)
+        page_list_copy.append(elements_list)
     elif command == "/filter":
         # Initialize a flag to check if at least one condition is satisfied
         genre_satisfied = is_genre_satisfied(query_genre, release_genre)
@@ -82,5 +85,5 @@ def process_elements_list(command: str,
         # and songs_counter is within limit
         songs_counter += 1
         if genre_satisfied and songs_counter < total_songs:
-            page_list.append(elements_list)
-    return songs_counter
+            page_list_copy.append(elements_list)
+    return songs_counter, page_list_copy

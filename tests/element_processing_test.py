@@ -17,7 +17,7 @@ def test_process_elements_list_all_command() -> None:
     query_artist = ""
     query_title = ""
 
-    updated_songs_counter = process_elements_list(command, elements_list, query_genre, release_genre,
+    updated_songs_counter, page_list = process_elements_list(command, elements_list, query_genre, release_genre,
                             query_country, release_country, query_artist,
                             release_artist, query_title, release_title,
                             songs_counter, total_songs, page_list)
@@ -43,7 +43,7 @@ def test_process_elements_list_filter_command_genre_satisfied() -> None:
     total_songs = 5
     page_list = []
 
-    updated_songs_counter = process_elements_list(command, elements_list, query_genre, release_genre,
+    updated_songs_counter, page_list = process_elements_list(command, elements_list, query_genre, release_genre,
                             query_country, release_country, query_artist,
                             release_artist, query_title, release_title,
                             songs_counter, total_songs, page_list)
@@ -69,7 +69,7 @@ def test_process_elements_list_filter_command_genre_not_satisfied() -> None:
     total_songs = 5
     page_list = []
 
-    updated_songs_counter = process_elements_list(command, elements_list, query_genre, release_genre,
+    updated_songs_counter, page_list = process_elements_list(command, elements_list, query_genre, release_genre,
                             query_country, release_country, query_artist,
                             release_artist, query_title, release_title,
                             songs_counter, total_songs, page_list)
