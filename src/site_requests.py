@@ -81,15 +81,16 @@ def site_requests_maker(command: str, flags: List[str], values: List[str],
     information = content_div.text.strip()
     lines = information.splitlines()
     lines = [line for line in lines if line.strip() != ""]
-
+    # Subtoken is used to keep track of the position within each group of three tokens
     subtoken = 0
     for token in lines:
         if token in ["more", "MAIN", '«', '»', "Load more"] or \
             "Quality:" in token or len(token) < 2:
             continue
-
+        # Process tokens based on subtoken position    
         if subtoken % 3 == 0:
             try:
+                # Extract release genre
                 release_genre = token.split(":")[1].strip().split("/")
             except IndexError:
                 continue
@@ -97,6 +98,7 @@ def site_requests_maker(command: str, flags: List[str], values: List[str],
 
         elif subtoken % 3 == 1:
             try:
+                # Extract release country
                 release_country = token.split(":")[1].strip()
             except IndexError:
                 continue
@@ -104,12 +106,13 @@ def site_requests_maker(command: str, flags: List[str], values: List[str],
 
         elif subtoken % 3 == 2:
             try:
+                # Extract release artist and title
                 release_artist = token.split("-")[0].strip()
                 release_title = song_cleaning(token.split("-")[1].strip())
             except IndexError:
                 continue
             subtoken += 1
-
+        # When subtoken reaches 0, it means one group of release information is complete
         if subtoken % 3 == 0:
             elements_list = [release_genre, release_country, release_artist, release_title]
             if songs_counter < total_songs:
@@ -118,5 +121,5 @@ def site_requests_maker(command: str, flags: List[str], values: List[str],
                                     release_artist, query_title, release_title, songs_counter,
                                     total_songs, page_list)
             else:
-                break
+                break # Stop processing if the desired number of songs has been reached
     return page_list, songs_counter
