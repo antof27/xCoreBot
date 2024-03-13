@@ -3,11 +3,11 @@ Module: element_processing
 
 This module provides functions for processing elements.
 """
-#Run Pylint with the following command: pylint --disable=E0401 element_processing.py 
+#Run Pylint with the following command: pylint --disable=E0401 element_processing.py
 #The import-error can be ignored as it is a false negative error
-from typing import List, Union
-import os 
+import os
 import sys
+from typing import List, Union
 
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
@@ -57,7 +57,7 @@ def process_elements_list(command: str,
         int: Updated songs counter.
     """
 
-    page_list_copy: List[List[Union[str, List[str]]]] = page_list.copy() 
+    page_list_copy: List[List[Union[str, List[str]]]] = page_list.copy()
 
     # Avoid unnecessary nesting
     if not all(elements_list):

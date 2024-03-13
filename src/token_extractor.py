@@ -4,8 +4,8 @@ Module for extracting tokens from input strings.
 #Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
 #The import-error can be ignored as it is a false negative error
 from typing import List, Optional, Tuple
-import os 
-import sys 
+import os
+import sys
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
 
