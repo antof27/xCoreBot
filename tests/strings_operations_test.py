@@ -1,7 +1,6 @@
 import os 
 import sys
 
-
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
 

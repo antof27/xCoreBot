@@ -18,9 +18,11 @@ parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 
-from src.token_extractor import arguments_checker
+from src.token_extractor import arguments_retriever
 from src.site_requests import site_requests_maker
 
+MAX_WORKERS = 16
+NUMBER_SONG_PER_PAGE = 32
 
 def site_requests_wrapper(args: Tuple[str, str, str, int, int, int]) -> Tuple[List[Union[str, List[str]]], int]:
     """
@@ -35,7 +37,7 @@ def site_requests_wrapper(args: Tuple[str, str, str, int, int, int]) -> Tuple[Li
     return site_requests_maker(*args)
 
 
-def calling_parallel(string: str, max_workers: int = 16) -> List[Union[str, List[str]]]:
+def calling_parallel(string: str, max_workers: int = MAX_WORKERS) -> List[Union[str, List[str]]]:
     """
     Perform parallelized web scraping of CoreRadio website.
 
@@ -46,11 +48,11 @@ def calling_parallel(string: str, max_workers: int = 16) -> List[Union[str, List
     Returns:
         list: A list of scraped music information.
     """
-    command, flags, values, total_songs = arguments_checker(string)
+    command, flags, values, total_songs = arguments_retriever(string)
     final_list = []
 
     try:
-        page_number = ceil(total_songs / 32)
+        page_number = ceil(total_songs / NUMBER_SONG_PER_PAGE)
     except TypeError:
         print("Error: invalid command")
         return None

@@ -17,6 +17,9 @@ sys.path.insert(1, parent_directory)
 
 from src.strings_operations import remove_whitespace
 
+DEFAULT_NUMBER_OF_SONGS = 20
+
+
 def flags_mapping(string: str) -> Optional[List[str]]:
     """
     Map flags to their corresponding attributes.
@@ -59,10 +62,10 @@ def n_songs_checker(string: str) -> Tuple[str, int]:
         songs = int(string.split(' ')[-1])
         string = string.rsplit(' ', 1)[0]
         return string, songs
-    return string, 20
+    return string, DEFAULT_NUMBER_OF_SONGS
 
 
-def arguments_checker(input_string: str) -> Tuple[Optional[str], \
+def arguments_retriever(input_string: str) -> Tuple[Optional[str], \
                                                   Optional[List[str]], Optional[List[str]], Optional[int]]:
     """
     Parse the input string to extract the command, flags, values, and songs.
@@ -110,5 +113,5 @@ def arguments_checker(input_string: str) -> Tuple[Optional[str], \
 # Example usage:
 # String = "/filter -gcat rock-metalcore-rapcore, usa, artist, song 50"
 # String1 = "/all"
-# Command, Flags, Values, songs = arguments_checker(String1)
+# Command, Flags, Values, songs = arguments_retriever(String1)
 # print("Command: ", Command, "\nFlags: ", Flags, "\nValues: ", Values, "\nsongs: ", songs)
