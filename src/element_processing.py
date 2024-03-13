@@ -5,13 +5,23 @@ This module provides functions for processing elements.
 """
 #Run Pylint with the following command: pylint --disable=E0401 element_processing.py 
 #The import-error can be ignored as it is a false negative error
+from typing import List, Union
 from src.strings_operations import lower_case
 from src.genre_checker import is_genre_satisfied
 
-def process_elements_list(command, elements_list, query_genre, release_genre,
-                            query_country, release_country, query_artist,
-                            release_artist, query_title, release_title,
-                            songs_counter, total_songs, page_list):
+def process_elements_list(command: str,
+                          elements_list: List[Union[str, List[str]]],
+                          query_genre: str,
+                          release_genre: List[str],
+                          query_country: str,
+                          release_country: str,
+                          query_artist: str,
+                          release_artist: str,
+                          query_title: str,
+                          release_title: str,
+                          songs_counter: int,
+                          total_songs: int,
+                          page_list: List[List[Union[str, List[str]]]]) -> int:
     """
     Process a list of elements based on the given
     command and conditions, and append to the page list.
