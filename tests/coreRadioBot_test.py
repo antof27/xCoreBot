@@ -13,8 +13,6 @@ parent_directory: str = os.path.dirname(script_directory)
 g_parent_directory: str = os.path.dirname(parent_directory)
 
 
-print("parent_directory: ", parent_directory)
-
 sys.path.insert(1, parent_directory)
 sys.path.insert(1, g_parent_directory)
 
