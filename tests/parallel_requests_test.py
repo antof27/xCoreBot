@@ -12,8 +12,8 @@ parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 
-from src.token_extractor import arguments_checker
-from src.site_requests import site_requests_maker
+#from src.token_extractor import arguments_retriever
+#from src.site_requests import site_requests_maker
 from src.parallel_requests import calling_parallel
 
 DEFAULT_NUMBER_OF_SONGS = 20
