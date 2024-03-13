@@ -2,13 +2,14 @@ from unittest.mock import AsyncMock, MagicMock, Mock
 import pytest
 import os
 import sys
+from typing import List
 
 # Get the current script's file path
-script_path = os.path.abspath(__file__)
+script_path: str = os.path.abspath(__file__)
 
 # Get the directory containing the script
-script_directory = os.path.dirname(script_path)
-parent_directory = os.path.dirname(script_directory)
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
 sys.path.insert(1, parent_directory)
 
 from src.coreRadioBot import start, help, wrong_question, filter, all
@@ -17,7 +18,7 @@ from telegram import Update
 from telegram.ext import ContextTypes
 import pytest
 
-def split_message(text, max_length=4096):
+def split_message(text: str, max_length: int = 4096) -> List[str]:
     """Split a message into chunks."""
     if len(text) <= max_length:
         return [text]
@@ -27,7 +28,7 @@ def split_message(text, max_length=4096):
 
 
 @pytest.mark.asyncio
-async def test_start():
+async def test_start() -> None:
     update = Mock()
     # Mock the message attribute
     update.message = Mock()
@@ -43,7 +44,7 @@ async def test_start():
     )
 
 @pytest.mark.asyncio
-async def test_help():
+async def test_help() -> None:
     update = Mock()
     context = MagicMock()
     context.bot.send_message = AsyncMock()
@@ -59,7 +60,7 @@ async def test_help():
     )
 
 @pytest.mark.asyncio
-async def test_wrong_question():
+async def test_wrong_question() -> None:
     update = Mock()
     context = MagicMock()
     context.bot.send_message = AsyncMock()
@@ -77,7 +78,7 @@ async def test_wrong_question():
 
 
 @pytest.mark.asyncio
-async def test_filter_less_arguments():
+async def test_filter_less_arguments() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()  # Use AsyncMock for asynchronous function
@@ -96,7 +97,7 @@ async def test_filter_less_arguments():
 
 
 @pytest.mark.asyncio
-async def test_filter_one_argument():
+async def test_filter_one_argument() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()
@@ -113,7 +114,7 @@ async def test_filter_one_argument():
 
 
 @pytest.mark.asyncio
-async def test_filter_more_arguments():
+async def test_filter_more_arguments() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()
@@ -128,7 +129,7 @@ async def test_filter_more_arguments():
     )
 
 @pytest.mark.asyncio
-async def test_filter_find_results():
+async def test_filter_find_results() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()
@@ -169,7 +170,7 @@ async def test_filter_find_results():
 
 
 @pytest.mark.asyncio
-async def test_filter_no_results():
+async def test_filter_no_results() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()
@@ -186,7 +187,7 @@ async def test_filter_no_results():
 
 
 @pytest.mark.asyncio
-async def test_all_no_digit():
+async def test_all_no_digit() -> None:
     update = Mock()
     context = Mock()
     context.args = ["Keyword"] #Example: only the first song
@@ -203,7 +204,7 @@ async def test_all_no_digit():
 
 
 @pytest.mark.asyncio
-async def test_no_argument():
+async def test_no_argument() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()
@@ -246,7 +247,7 @@ async def test_no_argument():
         
 
 @pytest.mark.asyncio
-async def test_all_too_many_argument():
+async def test_all_too_many_argument() -> None:
     update = Mock()
     context = Mock()
     context.bot.send_message = AsyncMock()

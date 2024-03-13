@@ -1,12 +1,13 @@
 import sys, os
 import pytest
+from typing import List
 
 # Get the current script's file path
-script_path = os.path.abspath(__file__)
+script_path: str = os.path.abspath(__file__)
 
 # Get the directory containing the script
-script_directory = os.path.dirname(script_path)
-parent_directory = os.path.dirname(script_directory)
+script_directory: str = os.path.dirname(script_path)
+parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 
@@ -27,5 +28,9 @@ from src.strings_operations import lower_case, remove_whitespace
     ("progressive+metalcore+hardcore", ["progressive metalcore", "hardcore", "metalcore", "hardcore"], True),  # All query genres present with additional genres
     ("", [], True),  # Empty query genre with empty release genres
 ])
-def test_is_genre_satisfied(query_genre, release_genre, expected_result):
+def test_is_genre_satisfied(
+    query_genre: str,
+    release_genre: List[str],
+    expected_result: bool
+    ) -> None:
     assert is_genre_satisfied(query_genre, release_genre) == expected_result
