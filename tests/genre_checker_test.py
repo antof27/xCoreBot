@@ -12,8 +12,6 @@ parent_directory: str = os.path.dirname(script_directory)
 sys.path.insert(1, parent_directory)
 
 from src.genre_checker import is_genre_satisfied
-from src.strings_operations import lower_case, remove_whitespace
-
 
 
 @pytest.mark.parametrize("query_genre, release_genre, expected_result", [

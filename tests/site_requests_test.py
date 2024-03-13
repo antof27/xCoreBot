@@ -12,8 +12,6 @@ parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 
-from src.strings_operations import song_cleaning, values_extractor
-from src.element_processing import process_elements_list
 from src.site_requests import requests_and_soup, site_requests_maker
 
 # Mocking the requests library

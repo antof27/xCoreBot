@@ -18,8 +18,6 @@ sys.path.insert(1, g_parent_directory)
 
 from xCoreBot.__init__ import start, help, wrong_question, filter, all
 from src.coreradio_scraper import query_results
-from telegram import Update
-from telegram.ext import ContextTypes
 import pytest
 
 def split_message(text: str, max_length: int = 4096) -> List[str]:

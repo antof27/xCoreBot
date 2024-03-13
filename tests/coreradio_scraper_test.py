@@ -12,7 +12,7 @@ parent_directory: str = os.path.dirname(script_directory)
 
 sys.path.insert(1, parent_directory)
 
-from src.coreradio_scraper import calling_parallel, print_outcomes
+from src.coreradio_scraper import print_outcomes
 
 DEFAULT_NUMBER_OF_SONGS = 100  
 

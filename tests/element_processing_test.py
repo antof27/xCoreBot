@@ -1,6 +1,3 @@
-import pytest
-from src.strings_operations import lower_case
-from src.genre_checker import is_genre_satisfied
 from src.element_processing import process_elements_list
 
 
