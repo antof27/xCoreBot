@@ -3,10 +3,10 @@ Module for checking genre conditions.
 """
 #Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
 #The import-error can be ignored as it is a false negative error
-
+from typing import List
 from src.strings_operations import lower_case, remove_whitespace
 
-def is_genre_satisfied(query_genre, release_genre):
+def is_genre_satisfied(query_genre: str, release_genre: List[str]) -> bool:
     """
     Check if the query genre conditions are satisfied based on the release genres.
 
