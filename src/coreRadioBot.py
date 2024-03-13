@@ -36,9 +36,16 @@ Functions:
 """
 import os
 import sys
+import yaml
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
+#import the yaml file to get the token
+
+with open("token_config.yaml", 'r') as stream:
+    config = yaml.safe_load(stream)
+
+TOKEN = config['TOKEN']
 
 # Get the current script's file path
 script_path = os.path.abspath(__file__)
@@ -218,7 +225,7 @@ async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(config.TOKEN).build()
+    application = ApplicationBuilder().token(TOKEN).build()
     start_handler = CommandHandler('start', start)
     wrongQuestion_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), wrong_question)
     help_handler = CommandHandler('help',help)
