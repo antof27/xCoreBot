@@ -55,6 +55,7 @@ from src.token_extractor import arguments_retriever
 
 
 #For local testing purposes uncomment the following lines 
+
 '''
 with open("./src/token_config.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
@@ -87,7 +88,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     user = update.message.from_user.username
     await context.bot.send_message(chat_id=update.effective_chat.id,
-                                   text="Hello " + str(user)+", I'm xCoreBot!\nI'm a bot that provides information about the latest releases in the Metal music genre. Use the command '/help' to discover the commands you can use!")
+                                   text=f"Hello {user}, I'm xCoreBot!\nI'm a bot that provides information about the latest releases in the Metal music genre. Use the command '/help' to discover the commands you can use!")
 
 
 async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -103,7 +104,7 @@ async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
     )
 
 
@@ -154,7 +155,7 @@ async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE
         # Iterate genres and append to text
         text += "Genres : "
         for genre in genres:
-            text += genre + ", "
+            text += f"{genre}, "
         text = text[:-2]  # Remove the last comma and space
         text += "\n\n"
 
