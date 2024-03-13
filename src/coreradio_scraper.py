@@ -5,7 +5,7 @@ Module for scraping CoreRadio website.
 #The import-error can be ignored as it is a false negative error
 import os
 import sys
-
+from typing import List
 # Get the current script's file path
 script_path = os.path.abspath(__file__)
 
@@ -17,7 +17,7 @@ sys.path.insert(1, parent_directory)
 from src.parallel_requests import calling_parallel
 
 
-def print_outcomes(final_list):
+def print_outcomes(final_list: List[str]) -> None:
     """
     Print elements from a list, handling TypeError.
 
@@ -33,7 +33,7 @@ def print_outcomes(final_list):
     except TypeError:
         pass
 
-def query_results(command_query):
+def query_results(command_query: str) -> List[str]:
     """
     Retrieve query results based on the provided command query.
 
