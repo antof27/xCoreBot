@@ -64,7 +64,7 @@ from src.token_extractor import arguments_retriever
 
 #For local testing purposes uncomment the following lines 
 
-
+'''
 with open("./src/token_config.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
 TOKEN = config['TOKEN']
@@ -74,7 +74,7 @@ TOKEN = os.environ.get('TOKEN')
 
 if TOKEN is None:
     raise ValueError("The token is not set. Please set the token in the environment variable TOKEN")
-'''
+
     
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
