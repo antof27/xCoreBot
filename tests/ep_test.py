@@ -4,7 +4,7 @@ from src.genre_checker import is_genre_satisfied
 from src.element_processing import process_elements_list
 
 
-def test_process_elements_list_all_command():
+def test_process_elements_list_all_command() -> None:
     # Test with /all command
     command = "/all"
     elements_list = ["metalcore", "sweden", "imminence", "continuum"]
@@ -30,7 +30,7 @@ def test_process_elements_list_all_command():
     assert page_list[0] == elements_list
     
 
-def test_process_elements_list_filter_command_genre_satisfied():
+def test_process_elements_list_filter_command_genre_satisfied() -> None:
     # Test with /filter command where genre condition is satisfied
     command = "/filter"
     elements_list = [['Progressive Metalcore'], 'Australia', 'Bloodshot', 'Absence']
@@ -56,7 +56,7 @@ def test_process_elements_list_filter_command_genre_satisfied():
     assert len(page_list) == 1
     assert page_list[0] == elements_list
 
-def test_process_elements_list_filter_command_genre_not_satisfied():
+def test_process_elements_list_filter_command_genre_not_satisfied() -> None:
     # Test with /filter command where genre condition is not satisfied
     command = "/filter -g-c"
     elements_list = ["progressive", "italy"]
