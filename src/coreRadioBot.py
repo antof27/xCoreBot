@@ -43,7 +43,11 @@ from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHan
 #import the yaml file to get the token
 
 with open("token_config.yaml", 'r') as stream:
-    config = yaml.safe_load(stream)
+    try: 
+        config = yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+        print(exc)
+
 
 TOKEN = config['TOKEN']
 
