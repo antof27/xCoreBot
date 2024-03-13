@@ -39,7 +39,6 @@ import sys
 import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
-import config
 
 # Get the current script's file path
 script_path = os.path.abspath(__file__)
