@@ -38,6 +38,7 @@ import os
 import sys
 import yaml
 import logging
+from typing import Any, List, Union
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
@@ -69,7 +70,7 @@ logging.basicConfig(
 )
 
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Send a greeting message to the user upon starting interaction with the bot.
 
@@ -85,7 +86,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                    text="Hello " + str(user)+", I'm xCoreBot!\nI'm a bot that provides information about the latest releases in the Metal music genre. Use the command '/help' to discover the commands you can use!")
 
 
-async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Send a message indicating that the bot couldn't understand the user's input.
 
@@ -102,7 +103,7 @@ async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Provide help information to the user by sending a message with a list of available commands and their usage.
 
@@ -122,7 +123,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Process and print the query results to the chat.
 
@@ -163,7 +164,7 @@ async def print_query_results(update: Update, context: ContextTypes.DEFAULT_TYPE
         await context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
 
 
-def split_message(text, max_length=4096):
+def split_message(text: str, max_length: int = 4096) -> List[str]:
     """
     Split a message into smaller chunks to ensure it doesn't exceed a maximum length.
 
@@ -183,7 +184,7 @@ def split_message(text, max_length=4096):
 
 
 
-async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Handle the '/all' command by retrieving query arguments, checking their validity,
     and printing query results.
@@ -205,7 +206,7 @@ async def all(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def filter(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """
     Handle the '/filter' command by retrieving query arguments, checking their validity,
     and printing query results.
