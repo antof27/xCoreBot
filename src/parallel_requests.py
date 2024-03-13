@@ -4,12 +4,13 @@ Module for parallelized web scraping of CoreRadio website.
 #Run Pylint with the following command: pylint --disable=E0401 parallel_requests.py 
 #The import-error can be ignored as it is a false negative error
 from math import ceil
+from typing import List, Tuple, Union
 from concurrent.futures import ThreadPoolExecutor
 from src.token_extractor import arguments_checker
 from src.site_requests import site_requests_maker
 
 
-def site_requests_wrapper(args):
+def site_requests_wrapper(args: Tuple[str, str, str, int, int, int]) -> Tuple[List[Union[str, List[str]]], int]:
     """
     Wrapper function for site_requests to use with ThreadPoolExecutor.
 
@@ -22,7 +23,7 @@ def site_requests_wrapper(args):
     return site_requests_maker(*args)
 
 
-def calling_parallel(string, max_workers=16):
+def calling_parallel(string: str, max_workers: int = 16) -> List[Union[str, List[str]]]:
     """
     Perform parallelized web scraping of CoreRadio website.
 
