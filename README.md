@@ -23,13 +23,21 @@ To execute the Telegram Bot, you need to follow some steps.
 Install the libraries needed first.
 Use pip or pip3 to install the dev requirements for the software usage and testing:
 
+Source code requirements: 
 ```bash
-pip3 install -r ./src/requirements.txt
-pip3 install -r ./tests/requirements.txt
+pip3 install -r requirements.txt
+```
+
+Testing code requirements: 
+```bash
+pip3 install -r requirements_dev.txt
 ```
 
 ### Start project
 Execute <code>python3 coreRadioBot.py</code> in the /src folder.
+
+To run this code, you need the Telegram Bot Token, stored within `token_config` in /src. 
+It is hidden for security purpose, contact the authors to receive it.
 
 To interact with the Bot:
 

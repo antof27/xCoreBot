@@ -1,4 +1,3 @@
-config.py
 __pycache__
 .pytest_cache
 token_config.yaml
