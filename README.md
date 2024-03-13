@@ -36,8 +36,8 @@ pip3 install -r requirements_dev.txt
 ### Start project
 Execute <code>python3 coreRadioBot.py</code> in the /src folder.
 
-To run this code, you need the Telegram Bot Token, stored within `token_config` in /src. 
-It is hidden for security purpose, contact the authors to receive it.
+To run this code, you need the Telegram Bot Token, stored within `token_config.yaml` in /src. 
+It is hidden for security purpose, contact the authors to receive it and follow the instructions within `config.py`.
 
 To interact with the Bot:
 
@@ -54,5 +54,4 @@ Run the following command in the main directory to obtain a HTML report about th
 ```bash
 $ pytest --cov ./src ./tests --cov-report=html
 ```
-The overall coverage of the project is **88%**
 
