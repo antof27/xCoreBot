@@ -3,11 +3,11 @@ Module for parallelized web scraping of CoreRadio website.
 """
 #Run Pylint with the following command: pylint --disable=E0401 parallel_requests.py 
 #The import-error can be ignored as it is a false negative error
+import os
+import sys
 from math import ceil
 from typing import List, Tuple, Union
 from concurrent.futures import ThreadPoolExecutor
-import os 
-import sys 
 
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)

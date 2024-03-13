@@ -1,15 +1,14 @@
 """
 Module for making requests and scraping music information from the CoreRadio website.
 """
-# Run Pylint with the following command: pylint --disable=E0401 site_requests.py 
+# Run Pylint with the following command: pylint --disable=E0401 site_requests.py
 # The import-error can be ignored as it is a false negative error
-
+import os
+import sys
 import time
 from typing import List, Tuple
 import requests
 from bs4 import BeautifulSoup
-import os 
-import sys 
 
 # Get the current script's file path
 script_path: str = os.path.abspath(__file__)
@@ -44,7 +43,7 @@ def requests_and_soup(url: str) -> BeautifulSoup:
     soup = BeautifulSoup(response.text, "html.parser")
     return soup
 
-def site_requests_maker(command: str, flags: List[str], values: List[str], 
+def site_requests_maker(command: str, flags: List[str], values: List[str],
                         page_number: int, total_songs: int, songs_counter: int) -> Tuple[List[List[str]], int]:
     """
     Scrape the CoreRadio website for music information based on the given command,
@@ -87,7 +86,7 @@ def site_requests_maker(command: str, flags: List[str], values: List[str],
         if token in ["more", "MAIN", '«', '»', "Load more"] or \
             "Quality:" in token or len(token) < 2:
             continue
-        # Process tokens based on subtoken position    
+        # Process tokens based on subtoken position
         if subtoken % 3 == 0:
             try:
                 # Extract release genre
