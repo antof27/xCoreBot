@@ -47,5 +47,5 @@ def query_results(command_query: str) -> List[str]:
     Returns:
         list: A list containing the query results retrieved based on the provided command query.
     """
-    results = calling_parallel(command_query)
+    results: List[str] = calling_parallel(command_query)
     return results

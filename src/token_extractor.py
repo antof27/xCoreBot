@@ -3,9 +3,10 @@ Module for extracting tokens from input strings.
 """
 #Run Pylint with the following command: pylint --disable=E0401 </path/to/file.py>
 #The import-error can be ignored as it is a false negative error
+from typing import List, Optional, Tuple
 from src.strings_operations import remove_whitespace
 
-def flags_mapping(string):
+def flags_mapping(string: str) -> Optional[List[str]]:
     """
     Map flags to their corresponding attributes.
 
@@ -32,7 +33,7 @@ def flags_mapping(string):
     return words
 
 
-def n_songs_checker(string):
+def n_songs_checker(string: str) -> Tuple[str, int]:
     """
     Extract the number of songs if present and the remaining string.
 
@@ -50,7 +51,8 @@ def n_songs_checker(string):
     return string, 20
 
 
-def arguments_checker(input_string):
+def arguments_checker(input_string: str) -> Tuple[Optional[str], \
+                                                  Optional[List[str]], Optional[List[str]], Optional[int]]:
     """
     Parse the input string to extract the command, flags, values, and songs.
 
