@@ -41,11 +41,9 @@ import logging
 from telegram import Update
 from telegram.ext import filters, MessageHandler, ApplicationBuilder, CommandHandler, ContextTypes
 
-
+# For local testing purposes uncomment the following lines 
 # with open("token_config.yaml", 'r') as stream:
 #     config = yaml.safe_load(stream)
-
-      
 # TOKEN = config['TOKEN']
 
 TOKEN = os.environ.get('TOKEN')
