@@ -103,7 +103,7 @@ async def wrong_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="I didn't understand ...\nuse the command /help to discover which commands you can use!"
+        text=f"I didn't understand ...\nuse the command /help to discover which commands you can use!"
     )
 
 
