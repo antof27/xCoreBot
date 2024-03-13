@@ -4,8 +4,9 @@ Module for providing string manipulation functions.
 This module includes functions for cleaning song titles, converting strings to lowercase,
 removing leading and trailing whitespace, and extracting query values based on flags.
 """
+from typing import List, Tuple
 
-def song_cleaning(song):
+def song_cleaning(song:str) -> str:
     """
     Clean song title by removing parentheses and square brackets.
 
@@ -20,7 +21,7 @@ def song_cleaning(song):
     return song
 
 
-def lower_case(string):
+def lower_case(string:str) -> str:
     """
     Convert a string to lowercase.
 
@@ -33,7 +34,7 @@ def lower_case(string):
     return string.lower()
 
 
-def remove_whitespace(string):
+def remove_whitespace(string:str) -> str:
     """
     Remove leading and trailing whitespace from a string.
 
@@ -46,7 +47,7 @@ def remove_whitespace(string):
     return string.strip()
 
 
-def values_extractor(flags, values):
+def values_extractor(flags: List[str], values: List[str]) -> Tuple[str, str, str, str]:
     """
     Extract query values based on flags.
 
