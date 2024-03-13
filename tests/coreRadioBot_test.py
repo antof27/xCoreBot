@@ -10,9 +10,15 @@ script_path: str = os.path.abspath(__file__)
 # Get the directory containing the script
 script_directory: str = os.path.dirname(script_path)
 parent_directory: str = os.path.dirname(script_directory)
-sys.path.insert(1, parent_directory)
+g_parent_directory: str = os.path.dirname(parent_directory)
 
-from src.coreRadioBot import start, help, wrong_question, filter, all
+
+print("parent_directory: ", parent_directory)
+
+sys.path.insert(1, parent_directory)
+sys.path.insert(1, g_parent_directory)
+
+from xCoreBot.__init__ import start, help, wrong_question, filter, all
 from src.coreradio_scraper import query_results
 from telegram import Update
 from telegram.ext import ContextTypes
